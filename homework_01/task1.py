@@ -4,6 +4,9 @@ class SomeModel:
             return 9.9
         return 0.0
 
+    def empty_func(self, a: int):
+        return a
+
 
 def predict_message_mood(
     message: str,

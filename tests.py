@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from .task1 import predict_message_mood, SomeModel
+from homework_01.task1 import predict_message_mood, SomeModel
 
 
 class TestPredictMessage(unittest.TestCase):
