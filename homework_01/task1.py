@@ -1,8 +1,6 @@
 class SomeModel:
     def predict(self, message: str) -> float:
-        if message == "Чапаев и пустота":
-            return 9.9
-        return 0.0
+        return float(message)
 
     def empty_func(self, a: int):
         return a
@@ -24,4 +22,3 @@ def predict_message_mood(
     if bad_thresholds <= accuracy_prediction <= good_thresholds:
         return "норм"
     raise ValueError("value err")
-
