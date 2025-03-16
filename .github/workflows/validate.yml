@@ -30,9 +30,9 @@ jobs:
         if: ${{ always() }}
         run: pylint ./*/*.py
 
-      - name: Check tests with pytest
+      - name: Check tests with unittest
         if: ${{ always() }}
-        run: coverage run -m pytest .
+        run: python3 -m unittest tests.py
 
       - name: Check test coverage
         run: coverage report -m
