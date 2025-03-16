@@ -24,4 +24,3 @@ def predict_message_mood(
     if bad_thresholds <= accuracy_prediction <= good_thresholds:
         return "норм"
     raise ValueError("value err")
-
