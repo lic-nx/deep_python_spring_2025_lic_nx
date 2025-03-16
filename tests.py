@@ -15,6 +15,28 @@ class TestPredictMessage(unittest.TestCase):
             )
             self.assertEqual("неуд", predict_message_mood("Вулкан"))
 
+    def test_vrong_params(self):
+        with mock.patch.object(SomeModel, "predict") as mock_api:
+            mock_api.return_value = 1.2
+
+            # Проверка выброса ValueError с сообщением "value err"
+            with self.assertRaises(ValueError) as cm:
+                predict_message_mood("Чапаев и пустота")
+            self.assertEqual(str(cm.exception), "value err")
+
+            # Проверка выброса ValueError с сообщением "Err"
+            with self.assertRaises(ValueError) as cm:
+                predict_message_mood("Чапаев и пустота", -1)
+            self.assertEqual(str(cm.exception), "Err")
+
+            with self.assertRaises(ValueError) as cm:
+                predict_message_mood("Чапаев и пустота", 0.6, 0.2)
+            self.assertEqual(str(cm.exception), "Err")
+
+            with self.assertRaises(ValueError) as cm:
+                predict_message_mood("Чапаев и пустота", 0.6, 1.2)
+            self.assertEqual(str(cm.exception), "Err")
+
     # def test_friends_single(self):
 
     #     with mock.patch("task1.predict") as mock_api:
