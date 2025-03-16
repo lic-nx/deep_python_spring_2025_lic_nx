@@ -34,5 +34,10 @@ jobs:
         if: ${{ always() }}
         run: python3 -m unittest tests.py
 
-      - name: Check test coverage
-        run: coverage report -m unittest
+      - name: Run tests with coverage
+        run: |
+          coverage run -m unittest
+  
+      - name: Generate coverage report
+        run: |
+          coverage report
