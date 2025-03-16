@@ -35,4 +35,4 @@ jobs:
         run: python3 -m unittest tests.py
 
       - name: Check test coverage
-        run: coverage report -m
+        run: coverage report -m unittest
