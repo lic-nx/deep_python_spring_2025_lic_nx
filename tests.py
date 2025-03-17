@@ -1,12 +1,16 @@
 import unittest
 from unittest import mock
 
-from homework_01.task1 import predict_message_mood, SomeModel
-from homework_01.task2 import filtered_file_reader
+from _01.task1 import predict_message_mood, SomeModel
+from _01.task2 import filtered_file_reader
 from unittest.mock import mock_open, patch
 
 
 class TestFirstTask(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        print("\nТестированае первого задания первого дня")
+
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.side_effect = [0.9, 0.9, 0.2]
@@ -41,6 +45,10 @@ class TestFirstTask(unittest.TestCase):
 
 
 class TestSecondTask(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        print("\nТестированае второго задания первого дня")
+
     @patch(
         "builtins.open",
         new_callable=mock_open,
@@ -51,8 +59,51 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(
-            filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
+
+    @patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="",
+    )
+    def test_empty(self, mock_file):
+        find_words = ["роза"]
+        stop_words = ["азора"]
+
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(result, [])
+
+    @patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="С учётом сложившейся международной обстановки \
+            \nновая модель организационной деятельности \
+            \nа также свежий взгляд на привычные вещи безусловно \
+            \nоткрывает новые горизонты для стандартных подходов \
+            \nУчитывая ключевые сценарии поведения перспективное \
+            \nпланирование однозначно фиксирует необходимость \
+            \nнаправлений прогрессивного развития \nБезусловно \
+            \nэкономическая повестка сегодняшнего дня не даёт \
+            \nнам иного выбора кроме определения модели развития",
+    )
+    def test_alot_find_words(self, mock_file):
+        find_words = ["нам", "а", "взгляд"]
+        stop_words = ["азора"]
+
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(
+            result,
+            [
+                "а также свежий взгляд на привычные вещи безусловно",
+                "нам иного выбора кроме определения модели развития",
+            ],
+        )
