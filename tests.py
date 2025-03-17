@@ -1,17 +1,15 @@
 import unittest
 from unittest import mock
-
 from _01.task1 import predict_message_mood, SomeModel
 from _01.task2 import filtered_file_reader
 from unittest.mock import mock_open
 
 
 class TestFirstTask(unittest.TestCase):
-    """Тесты для первого задания первой домашки"""
 
     @classmethod
-    def setUpClass(cls):
-        print("\nТесты для первого задания первой домашки")
+    def setUpClass(self):
+        print("\nТестированае первого задания первого дня")
 
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
@@ -47,11 +45,9 @@ class TestFirstTask(unittest.TestCase):
 
 
 class TestSecondTask(unittest.TestCase):
-    """Тесты для второго задания первой домашки"""
-
     @classmethod
-    def setUpClass(cls):
-        print("\nТесты для второго задания первой домашки")
+    def setUpClass(self):
+        print("\nТестированае второго задания первого дня")
 
     @mock.patch(
         "builtins.open",
@@ -73,16 +69,41 @@ class TestSecondTask(unittest.TestCase):
         new_callable=mock_open,
         read_data="",
     )
-    def test_empty_line(self, mock_file):
+    def test_empty(self, mock_file):
         find_words = ["роза"]
         stop_words = ["азора"]
-
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader("f_f.txt", find_words, stop_words))
+
+        result = list(filtered_file_reader("file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, [])
 
+    @mock.patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="С учётом сложившейся международной обстановки \
+            \nновая модель организационной деятельности \
+            \nа также свежий взгляд на привычные вещи безусловно \
+            \nоткрывает новые горизонты для стандартных подходов \
+            \nУчитывая ключевые сценарии поведения перспективное \
+            \nпланирование однозначно фиксирует необходимость \
+            \nнаправлений прогрессивного развития \nБезусловно \
+            \nэкономическая повестка сегодняшнего дня не даёт \
+            \nнам иного выбора кроме определения модели развития",
+    )
+    def test_alot_find_words(self, mock_file):
+        find_words = ["нам", "а", "взгляд"]
+        stop_words = ["азора"]
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("file.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(
+            result,
+            [
+                "а также свежий взгляд на привычные вещи безусловно",
+                "нам иного выбора кроме определения модели развития",
+            ],
+        )
