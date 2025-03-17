@@ -1,9 +1,9 @@
 import unittest
 from unittest import mock
 
-from .'01'.task1 import predict_message_mood, SomeModel
-from .'01'.task2 import filtered_file_reader
-from unittest.mock import mock_open, patch
+from _01.task1 import predict_message_mood, SomeModel
+from _01.task2 import filtered_file_reader
+from unittest.mock import mock_open
 
 
 class TestFirstTask(unittest.TestCase):
@@ -53,7 +53,7 @@ class TestSecondTask(unittest.TestCase):
     def setUpClass(cls):
         print("\nТесты для второго задания первой домашки")
 
-    @patch(
+    @mock.patch(
         "builtins.open",
         new_callable=mock_open,
         read_data="роза упала на лапу Азора\nроза цветет\n",
@@ -67,6 +67,21 @@ class TestSecondTask(unittest.TestCase):
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
+
+    @mock.patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="",
+    )
+    def test_from_example(self, mock_file):
+        find_words = ["роза"]
+        stop_words = ["азора"]
+
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(result, [])
 
 
 if __name__ == "__main__":
