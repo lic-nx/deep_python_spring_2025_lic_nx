@@ -51,7 +51,8 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(
+            filtered_file_reader("fake_file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
