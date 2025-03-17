@@ -6,6 +6,7 @@ from unittest.mock import mock_open
 
 
 class TestFirstTask(unittest.TestCase):
+
     @classmethod
     def setUpClass(self):
         print("\nТестированае первого задания первого дня")
@@ -72,6 +73,7 @@ class TestSecondTask(unittest.TestCase):
         find_words = ["роза"]
         stop_words = ["азора"]
         # Преобразуем генератор в список для проверки результатов
+
         result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
@@ -95,7 +97,7 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(
