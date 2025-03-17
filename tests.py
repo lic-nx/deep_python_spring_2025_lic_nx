@@ -1,12 +1,18 @@
 import unittest
 from unittest import mock
 
-from homework_01.task1 import predict_message_mood, SomeModel
-from homework_01.task2 import filtered_file_reader
-from unittest.mock import mock_open, patch
+from _01.task1 import predict_message_mood, SomeModel
+from _01.task2 import filtered_file_reader
+from unittest.mock import mock_open
 
 
 class TestFirstTask(unittest.TestCase):
+    """Тесты для первого задания первой домашки"""
+
+    @classmethod
+    def setUpClass(cls):
+        print("\nТесты для первого задания первой домашки")
+
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.side_effect = [0.9, 0.9, 0.2]
@@ -41,7 +47,13 @@ class TestFirstTask(unittest.TestCase):
 
 
 class TestSecondTask(unittest.TestCase):
-    @patch(
+    """Тесты для второго задания первой домашки"""
+
+    @classmethod
+    def setUpClass(cls):
+        print("\nТесты для второго задания первой домашки")
+
+    @mock.patch(
         "builtins.open",
         new_callable=mock_open,
         read_data="роза упала на лапу Азора\nроза цветет\n",
@@ -51,8 +63,26 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(
-            filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("f_f.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
+
+    @mock.patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="",
+    )
+    def test_empty_line(self, mock_file):
+        find_words = ["роза"]
+        stop_words = ["азора"]
+
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("f_f.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(result, [])
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
