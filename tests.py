@@ -63,7 +63,7 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("f_f.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
@@ -73,12 +73,12 @@ class TestSecondTask(unittest.TestCase):
         new_callable=mock_open,
         read_data="",
     )
-    def test_from_example(self, mock_file):
+    def test_empty_line(self, mock_file):
         find_words = ["роза"]
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("f_f.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, [])
