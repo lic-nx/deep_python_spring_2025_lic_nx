@@ -1,12 +1,18 @@
 import unittest
 from unittest import mock
 
-from homework_01.task1 import predict_message_mood, SomeModel
-from homework_01.task2 import filtered_file_reader
+from .'01'.task1 import predict_message_mood, SomeModel
+from .'01'.task2 import filtered_file_reader
 from unittest.mock import mock_open, patch
 
 
 class TestFirstTask(unittest.TestCase):
+    """Тесты для первого задания первой домашки"""
+
+    @classmethod
+    def setUpClass(cls):
+        print("\nТесты для первого задания первой домашки")
+
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.side_effect = [0.9, 0.9, 0.2]
@@ -41,6 +47,12 @@ class TestFirstTask(unittest.TestCase):
 
 
 class TestSecondTask(unittest.TestCase):
+    """Тесты для второго задания первой домашки"""
+
+    @classmethod
+    def setUpClass(cls):
+        print("\nТесты для второго задания первой домашки")
+
     @patch(
         "builtins.open",
         new_callable=mock_open,
@@ -51,8 +63,11 @@ class TestSecondTask(unittest.TestCase):
         stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(
-            filtered_file_reader("fake_file.txt", find_words, stop_words))
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
