@@ -2,9 +2,10 @@ import unittest
 from unittest import mock
 
 from homework_01.task1 import predict_message_mood, SomeModel
+from homework_01.task2 import filtered_file_reader
+from unittest.mock import mock_open, patch
 
-
-class TestPredictMessage(unittest.TestCase):
+class TestFirstTask(unittest.TestCase):
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.side_effect = [0.9, 0.9, 0.2]
@@ -37,79 +38,14 @@ class TestPredictMessage(unittest.TestCase):
                 predict_message_mood("Чапаев и пустота", 0.6, 1.2)
             self.assertEqual(str(cm.exception), "Err")
 
-    # def test_friends_single(self):
+class TestSecondTask(unittest.TestCase):
+    @patch('builtins.open', new_callable=mock_open, read_data="роза упала на лапу Азора\nроза цветет\n")
+    def test_from_example(self,mock_file):
+        find_words = ['роза']
+        stop_words = ['азора']
 
-    #     with mock.patch("task1.predict") as mock_api:
-    #         mock_api.side_effect = [["voz"], ["voz", "lisa"]]
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader('fake_file.txt', find_words, stop_words))
 
-    #         friends = usr.get_friends()
-    #         self.assertEqual(["voz"], friends)
-
-    #         calls = [
-    #             mock.call("/friends", "steve", part=None),
-    #         ]
-    #         self.assertEqual(calls, mock_api.mock_calls)
-
-    #         friends = usr.get_friends("is")
-    #         self.assertEqual(["lisa"], friends)
-
-    #         calls = [
-    #             mock.call("/friends", "steve", part=None),
-    #             mock.call("/friends", "steve", part="IS"),
-    #         ]
-    #         self.assertEqual(calls, mock_api.mock_calls)
-
-    #         # friends = usr.get_friends("is")
-
-    # @mock.patch("user.fetch_vk_api")
-    # def test_friends_no_filter(self, mock_api):
-    #     usr = User("steve", 42)
-
-    #     def get_friends(*_, **__):
-    #         return ["voz", "lisa"]
-
-    #     mock_api.side_effect = get_friends
-
-    #     friends = usr.get_friends()
-    #     self.assertEqual(["voz", "lisa"], friends)
-
-    #     calls = [
-    #         mock.call("/friends", "steve", part=None),
-    #     ]
-    #     self.assertEqual(calls, mock_api.mock_calls)
-
-    #     friends = usr.get_friends()
-    #     self.assertEqual(["voz", "lisa"], friends)
-
-    #     calls = [
-    #         mock.call("/friends", "steve", part=None),
-    #         mock.call("/friends", "steve", part=None),
-    #     ]
-    #     self.assertEqual(calls, mock_api.mock_calls)
-
-    # @mock.patch("user.fetch_vk_api")
-    # def test_friends_connection_error(self, mock_api):
-    #     usr = User("steve", 42)
-
-    #     mock_api.side_effect = Exception("connection error")
-
-    #     with self.assertRaises(Exception) as err:
-    #         usr.get_friends()
-
-    #     self.assertEqual("connection error", str(err.exception))
-
-    #     calls = [
-    #         mock.call("/friends", "steve", part=None),
-    #     ]
-    #     self.assertEqual(calls, mock_api.mock_calls)
-
-    #     with self.assertRaises(Exception) as err:
-    #         usr.get_friends("is")
-
-    #     self.assertEqual("connection error", str(err.exception))
-
-    #     calls = [
-    #         mock.call("/friends", "steve", part=None),
-    #         mock.call("/friends", "steve", part="IS"),
-    #     ]
-    #     self.assertEqual(calls, mock_api.mock_calls)
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(result, ["роза цветет"])
