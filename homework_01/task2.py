@@ -6,4 +6,4 @@ def filtered_file_reader(filename, find_words, stop_words):
         for line in file:
             line_words = set(line.lower().split())
             if find_words & line_words and not (stop_words & line_words):
-                yield line
+                yield line.strip()
