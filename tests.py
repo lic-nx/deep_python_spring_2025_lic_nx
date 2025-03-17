@@ -5,6 +5,7 @@ from homework_01.task1 import predict_message_mood, SomeModel
 from homework_01.task2 import filtered_file_reader
 from unittest.mock import mock_open, patch
 
+
 class TestFirstTask(unittest.TestCase):
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
@@ -38,14 +39,19 @@ class TestFirstTask(unittest.TestCase):
                 predict_message_mood("Чапаев и пустота", 0.6, 1.2)
             self.assertEqual(str(cm.exception), "Err")
 
+
 class TestSecondTask(unittest.TestCase):
-    @patch('builtins.open', new_callable=mock_open, read_data="роза упала на лапу Азора\nроза цветет\n")
-    def test_from_example(self,mock_file):
-        find_words = ['роза']
-        stop_words = ['азора']
+    @patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="роза упала на лапу Азора\nроза цветет\n",
+    )
+    def test_from_example(self, mock_file):
+        find_words = ["роза"]
+        stop_words = ["азора"]
 
         # Преобразуем генератор в список для проверки результатов
-        result = list(filtered_file_reader('fake_file.txt', find_words, stop_words))
+        result = list(filtered_file_reader("fake_file.txt", find_words, stop_words))
 
         # Проверяем, что возвращается только одна строка
         self.assertEqual(result, ["роза цветет"])
