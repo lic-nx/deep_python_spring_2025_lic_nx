@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-
 from _01.task1 import predict_message_mood, SomeModel
 from _01.task2 import filtered_file_reader
 from unittest.mock import mock_open, patch
