@@ -1,4 +1,7 @@
 import unittest
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest import mock
 from _01.task1 import predict_message_mood, SomeModel
 from _01.task2 import filtered_file_reader
@@ -106,4 +109,30 @@ class TestSecondTask(unittest.TestCase):
                 "а также свежий взгляд на привычные вещи безусловно",
                 "нам иного выбора кроме определения модели развития",
             ],
+        )
+
+    @mock.patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="С учётом сложившейся международной обстановки \
+            \nновая модель организационной деятельности \
+            \nа также свежий взгляд на привычные вещи безусловно \
+            \nоткрывает новые горизонты для стандартных подходов \
+            \nУчитывая ключевые сценарии поведения перспективное \
+            \nпланирование однозначно фиксирует необходимость \
+            \nнаправлений прогрессивного развития \nБезусловно \
+            \nэкономическая повестка сегодняшнего дня не даёт \
+            \nнам иного выбора кроме определения модели развития",
+    )
+    def test_empty_find_words(self, mock_file):
+        find_words = []
+        stop_words = ["азора"]
+
+        # Преобразуем генератор в список для проверки результатов
+        result = list(filtered_file_reader("file.txt", find_words, stop_words))
+
+        # Проверяем, что возвращается только одна строка
+        self.assertEqual(
+            result,
+            [],
         )
