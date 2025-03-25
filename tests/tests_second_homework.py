@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest.mock import Mock
 from _02.task1 import process_json
-
+from _02.task2 import retry_deco
 class TestProcessJson(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -117,7 +117,22 @@ class TestProcessJson(unittest.TestCase):
         process_json(json_str, required_keys, tokens, callback)
 
         # Assert that the callback was not called
-        callback.assert_not_called(
+        expected_calls =[
             unittest.mock.call("ID", "sgml"),
             unittest.mock.call("SortAs", "sgml")
-        )
+        ]
+        callback.assert_has_calls(expected_calls, any_order=True)
+
+
+
+
+class TestDecoratoirs(unittest.TestCase):
+    def test_example(self):
+        print("\nТестироване второго задания второго дня")
+
+    def test_function_with_args(self):
+        @retry_deco(1)
+        def function_with_args():
+            return 1
+        result = function_with_args()
+        assert result == 1
