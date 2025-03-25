@@ -7,6 +7,8 @@ def process_json(
     tokens: list[str] | None = None,
     callback: Callable[[str, str], None] | None = None,
 ) -> None:
+    if len(json_str) < 1:
+        return
     data = json.loads(json_str)
     for key in required_keys:
         if key in data.keys():
