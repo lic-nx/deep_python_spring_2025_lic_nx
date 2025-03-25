@@ -8,7 +8,7 @@ from _01.task2 import filtered_file_reader
 from unittest.mock import mock_open
 
 
-class TestFirstTask(unittest.TestCase):
+class TestPredictMessageMood(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
@@ -47,7 +47,7 @@ class TestFirstTask(unittest.TestCase):
             self.assertEqual(str(cm.exception), "Err")
 
 
-class TestSecondTask(unittest.TestCase):
+class TestFilteredFileReader(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         print("\nТестированае второго задания первого дня")

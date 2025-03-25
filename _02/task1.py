@@ -13,11 +13,6 @@ def process_json(
             data_tokens = list(map(lambda x: x.lower(), data[key].split(" ")))
             for token in tokens:
                 if token.lower() in data_tokens:
-                    print(callback(key, token))
+                    callback(key, token)
 
 
-json_str = '{"key1": "Word1 word2", "key2": "word2 word3"}'
-required_keys = ["key1", "key2"]
-tokens = ["WORD1", "word2"]
-         
-process_json(json_str, required_keys, tokens, lambda key, token: f"{key=}, {token=}")
