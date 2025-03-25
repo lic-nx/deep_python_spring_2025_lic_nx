@@ -136,3 +136,11 @@ class TestDecoratoirs(unittest.TestCase):
             return 1
         result = function_with_args()
         assert result == 1
+
+    def test_retry_on_exception(self):
+        @retry_deco(restarts=1, exceptions=[ZeroDivisionError])
+        def function_with_args():
+            return 1 / 0
+
+        with self.assertRaises(ZeroDivisionError):
+            function_with_args()

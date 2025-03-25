@@ -7,22 +7,44 @@
 #   если исключение из списка ожидаемых классов исключений (параметр декоратора), то перезапускать функцию не надо, тк исключения из списка это нормальный режим работы декорируемой функции.
 
 # ```py
-def retry_deco(restarts:int, exceptions:list=()):
-    
+# from functools import wraps
+# def retry_deco(restarts:int, exceptions:list=()):
+#     def call_logging(func):
+#         @wraps(func)
+#         def catching_errors(*args, **kwargs):
+#             i = 0
+#             while i <= restarts:
+#                 try:
+#                         return func(*args, **kwargs)
+                    
+#                 except exceptions as e:
+#                     i+=1
+#                     print(f'Вызов функции: {func.__name__} с аргументами {*args, *kwargs} номер попытки: {i}, ошибка: {e}')
+#                 else:
+#                     break
+#         return catching_errors
+#     return call_logging
+
+from functools import wraps
+
+def retry_deco(restarts: int, exceptions: list = ()):
     def call_logging(func):
-        i = 0
-        while i < restarts:
-            try:
-                def catching_errors(*args, **kwargs):
+        @wraps(func)
+        def catching_errors(*args, **kwargs):
+            i = 0
+            while i <= restarts:
+                try:
                     return func(*args, **kwargs)
-                return catching_errors
-            except exceptions as e:
-                i+=1
-            else:
-                break
+                except tuple(exceptions) as e:
+                    i += 1
+                    print(f'Вызов функции: {func.__name__} с аргументами {args, kwargs} номер попытки: {i}, ошибка: {e}')
+                else:
+                    break
+            # If all retries are exhausted, raise the last exception
+            if i > restarts:
+                raise "The number of restarts has been exceeded"
+        return catching_errors
     return call_logging
-
-
 
 # @retry_deco(3)
 # def add(a, b):
