@@ -2,10 +2,9 @@ name: Validation
 
 on:
   push:
-    branches: [ "main", "develop"]
+    branches: ["main", "develop"]
   pull_request:
-    branches: [ "main" ]
-
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -30,22 +29,18 @@ jobs:
         if: ${{ always() }}
         run: pylint ./*/*.py
 
-      - name: Check tests with unittest 01
+      - name: Run tests with unittest
         if: ${{ always() }}
-        run: cd 01 && python3 -m unittest *.py
-        
-      - name: Check tests with unittest 02
-        if: ${{ always() }}
-        run: cd 02 && python3 -m unittest *.py
-        
-      - name: Run tests with coverage 01
-        run: cd 01 &&
-          coverage run -m unittest
-          
-      - name: Run tests with coverage 02
-        run: cd 02 &&
-          coverage run -m unittest
-  
-      - name: Generate coverage report
         run: |
-          coverage report 02/* 01/*
+          for dir in 01 02; do
+            (cd $dir && python3 -m unittest *.py)
+          done
+
+      - name: Run tests with coverage
+        run: |
+          for dir in 01 02; do
+            (cd $dir && coverage run -m unittest)
+          done
+
+      - name: Generate coverage report
+        run: coverage report 01/* 02/*
