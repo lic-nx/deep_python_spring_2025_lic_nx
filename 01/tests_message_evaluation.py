@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest import mock
 from .message_evaluation import predict_message_mood, SomeModel
@@ -43,5 +44,3 @@ class TestPredictMessageMood(unittest.TestCase):
             with self.assertRaises(ValueError) as cm:
                 predict_message_mood("Чапаев и пустота", 0.6, 1.2)
             self.assertEqual(str(cm.exception), "Err")
-
-

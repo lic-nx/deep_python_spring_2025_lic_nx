@@ -1,10 +1,13 @@
 import unittest
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest import mock
 from unittest.mock import mock_open
 from .generator_for_reading_filtering_file import filtered_file_reader
+
+
 class TestFilteredFileReader(unittest.TestCase):
     @classmethod
     def setUpClass(self):

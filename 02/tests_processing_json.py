@@ -1,7 +1,7 @@
-
 import unittest
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest.mock import Mock
 from .processing_json import process_json
@@ -21,18 +21,17 @@ class TestProcessJson(unittest.TestCase):
         expected_calls = [
             unittest.mock.call("key1", "WORD1"),
             unittest.mock.call("key1", "word2"),
-            unittest.mock.call("key2", "word2")
+            unittest.mock.call("key2", "word2"),
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
 
     def test_empty_input(self):
-        json_str = ''
+        json_str = ""
         required_keys = []
         tokens = []
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         callback.assert_not_called()
-
 
     def test_empty_keys(self):
         json_str = """{"ID": "SGML",
@@ -64,7 +63,7 @@ class TestProcessJson(unittest.TestCase):
 
         # Assert that the callback was not called
         callback.assert_not_called()
-    
+
     def test_missing_tokens(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
@@ -83,7 +82,7 @@ class TestProcessJson(unittest.TestCase):
 
         # Assert that the callback was not called
         callback.assert_not_called()
-    
+
     def test_empty_tokens(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
@@ -102,6 +101,7 @@ class TestProcessJson(unittest.TestCase):
 
         # Assert that the callback was not called
         callback.assert_not_called()
+
     def test_registers(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
@@ -119,8 +119,8 @@ class TestProcessJson(unittest.TestCase):
         process_json(json_str, required_keys, tokens, callback)
 
         # Assert that the callback was not called
-        expected_calls =[
+        expected_calls = [
             unittest.mock.call("ID", "sgml"),
-            unittest.mock.call("SortAs", "sgml")
+            unittest.mock.call("SortAs", "sgml"),
         ]
         callback.assert_has_calls(expected_calls, any_order=True)

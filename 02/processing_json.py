@@ -1,5 +1,6 @@
-from typing import Callable  
+from typing import Callable
 import json
+
 
 def process_json(
     json_str: str,
@@ -16,5 +17,3 @@ def process_json(
             for token in tokens:
                 if token.lower() in data_tokens:
                     callback(key, token)
-
-
