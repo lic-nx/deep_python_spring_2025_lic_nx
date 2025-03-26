@@ -1,10 +1,9 @@
+from unittest import mock
+from .message_evaluation import predict_message_mood, SomeModel
 import unittest
 import os
 import sys
-
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from unittest import mock
-from .message_evaluation import predict_message_mood, SomeModel
 
 
 class TestPredictMessageMood(unittest.TestCase):

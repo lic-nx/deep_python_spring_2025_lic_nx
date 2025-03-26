@@ -1,10 +1,9 @@
+from .processing_json import process_json
+from unittest.mock import Mock
 import unittest
 import os
 import sys
-
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from unittest.mock import Mock
-from .processing_json import process_json
 
 
 class TestProcessJson(unittest.TestCase):
@@ -35,10 +34,10 @@ class TestProcessJson(unittest.TestCase):
 
     def test_empty_keys(self):
         json_str = """{"ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986"}"""
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
         required_keys = []
         tokens = ["mArkup"]
         callback = Mock()
@@ -48,10 +47,10 @@ class TestProcessJson(unittest.TestCase):
     def test_missing_required_key(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986"}"""
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["key3"]
         tokens = ["SGML"]
 
@@ -67,10 +66,10 @@ class TestProcessJson(unittest.TestCase):
     def test_missing_tokens(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986"}"""
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID"]
         tokens = ["SGML1"]
 
@@ -86,10 +85,10 @@ class TestProcessJson(unittest.TestCase):
     def test_empty_tokens(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986"}"""
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID"]
         tokens = []
 
@@ -105,10 +104,10 @@ class TestProcessJson(unittest.TestCase):
     def test_registers(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986"}"""
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID", "SortAs", "glossterm"]
         tokens = ["Markup", "sgml"]
 
