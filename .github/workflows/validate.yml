@@ -46,3 +46,4 @@ jobs:
         run: |
           for dir in 01 02; do
             (cd $dir && donecoverage report -m *.py)
+          done
