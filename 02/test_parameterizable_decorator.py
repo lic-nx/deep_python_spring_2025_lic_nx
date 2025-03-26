@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
 class TrivialException(Exception):
-    def __str__(self):
+    def __str__(cls):
         return "Недопустимое значение"
 
 
