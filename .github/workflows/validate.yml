@@ -38,8 +38,12 @@ jobs:
         if: ${{ always() }}
         run: cd 02 && python3 -m unittest *.py
         
-      - name: Run tests with coverage
-        run: |
+      - name: Run tests with coverage 01
+        run: cd 01 &&
+          coverage run -m unittest
+          
+      - name: Run tests with coverage 02
+        run: cd 02 &&
           coverage run -m unittest
   
       - name: Generate coverage report
