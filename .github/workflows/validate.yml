@@ -48,4 +48,4 @@ jobs:
   
       - name: Generate coverage report
         run: |
-          coverage report
+          coverage report 02/* 01/*
