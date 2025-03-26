@@ -20,6 +20,7 @@ def retry_deco(restarts: int, exceptions: list = ()):
             # If all retries are exhausted, raise the last exception
             if i >= restarts:
                 print("The number of restarts has been exceeded")
+            return func(*args, **kwargs)
 
         return catching_errors
 

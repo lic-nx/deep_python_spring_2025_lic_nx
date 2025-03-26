@@ -1,15 +1,16 @@
 from unittest import mock
-from .message_evaluation import predict_message_mood, SomeModel
 import unittest
 import os
 import sys
+from .message_evaluation import predict_message_mood, SomeModel
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
 class TestPredictMessageMood(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("\nТестированае первого задания первого дня")
 
     def test_from_example(self):

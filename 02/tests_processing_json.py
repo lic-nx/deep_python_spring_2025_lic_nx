@@ -1,14 +1,15 @@
-from .processing_json import process_json
-from unittest.mock import Mock
-import unittest
-import os
 import sys
+import os
+import unittest
+from unittest.mock import Mock
+from processing_json import process_json
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
 class TestProcessJson(unittest.TestCase):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("\nТестированае первого задания второго дня")
 
     def test_example(self):
