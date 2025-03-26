@@ -2,7 +2,7 @@ from unittest import mock
 import unittest
 import os
 import sys
-from .message_evaluation import predict_message_mood, SomeModel
+from message_evaluation import predict_message_mood, SomeModel
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 

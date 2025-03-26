@@ -2,7 +2,7 @@ import sys
 import os
 import unittest
 from unittest.mock import Mock
-from .processing_json import process_json
+from processing_json import process_json
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
