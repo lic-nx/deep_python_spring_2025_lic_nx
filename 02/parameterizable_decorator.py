@@ -13,7 +13,7 @@ def retry_deco(restarts: int, exceptions: list = ()):
                     i += 1
                     print(
                         f"Вызов функции: {func.__name__} с аргументами \
-                            {args, kwargs} номер попытки: {i}, ошибка: {e}"
+{args, kwargs} номер попытки: {i}, ошибка: {e}"
                     )
                 else:
                     break
