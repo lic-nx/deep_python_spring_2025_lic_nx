@@ -32,7 +32,7 @@ def retry_deco(restarts: int, exceptions: list = ()):
         @wraps(func)
         def catching_errors(*args, **kwargs):
             i = 0
-            while i <= restarts:
+            while i < restarts:
                 try:
                     return func(*args, **kwargs)
                 except tuple(exceptions) as e:
@@ -41,8 +41,8 @@ def retry_deco(restarts: int, exceptions: list = ()):
                 else:
                     break
             # If all retries are exhausted, raise the last exception
-            if i > restarts:
-                raise "The number of restarts has been exceeded"
+            if i >= restarts:
+                print("The number of restarts has been exceeded")
         return catching_errors
     return call_logging
 

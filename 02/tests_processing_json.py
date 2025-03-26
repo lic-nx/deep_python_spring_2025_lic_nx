@@ -1,10 +1,12 @@
+
 import unittest
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from unittest.mock import Mock
-from _02.task1 import process_json
-from _02.task2 import retry_deco
+from .processing_json import process_json
+
+
 class TestProcessJson(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -122,25 +124,3 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call("SortAs", "sgml")
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
-
-
-
-
-class TestDecoratoirs(unittest.TestCase):
-    def test_example(self):
-        print("\nТестироване второго задания второго дня")
-
-    def test_function_with_args(self):
-        @retry_deco(1)
-        def function_with_args():
-            return 1
-        result = function_with_args()
-        assert result == 1
-
-    def test_retry_on_exception(self):
-        @retry_deco(restarts=1, exceptions=[ZeroDivisionError])
-        def function_with_args():
-            return 1 / 0
-
-        with self.assertRaises(ZeroDivisionError):
-            function_with_args()
