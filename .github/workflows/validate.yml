@@ -32,11 +32,11 @@ jobs:
 
       - name: Check tests with unittest 01
         if: ${{ always() }}
-        run: python3 -m unittest 01/*.py
+        run: cd 01 && python3 -m unittest *.py
         
       - name: Check tests with unittest 02
         if: ${{ always() }}
-        run: python3 -m unittest 02/*.py
+        run: cd 02 && python3 -m unittest *.py
         
       - name: Run tests with coverage
         run: |
