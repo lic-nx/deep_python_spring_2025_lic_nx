@@ -45,5 +45,5 @@ jobs:
       - name: Generate coverage report
         run: |
           for dir in 01 02; do
-            (cd $dir && donecoverage report -m *.py)
+            (cd $dir && coverage report -m *.py)
           done
