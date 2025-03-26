@@ -43,4 +43,4 @@ jobs:
           done
 
       - name: Generate coverage report
-        run: coverage report 01/* 02/*
+        run: coverage report -m 01/*.py 02/*.py
