@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 class TestProcessJson(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print("\nТестированае первого задания второго дня")
+        print("\nТестированае парсинга строки")
 
     def test_example(self):
         json_str = '{"key1": "Word1 word2", "key2": "word2 word3"}'

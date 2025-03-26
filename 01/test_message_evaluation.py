@@ -11,7 +11,7 @@ class TestPredictMessageMood(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        print("\nТестированае первого задания первого дня")
+        print("\nТестированае строки")
 
     def test_from_example(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:

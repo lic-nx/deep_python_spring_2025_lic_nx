@@ -2,6 +2,7 @@ import unittest
 import os
 import sys
 from parameterizable_decorator import retry_deco
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
@@ -12,7 +13,7 @@ class TrivialException(Exception):
 
 class TestDecoratoirs(unittest.TestCase):
     def test_example(self):
-        print("\nТестироване второго задания второго дня")
+        print("\nТестироване декоратора")
 
     def test_function_with_args(self):
         @retry_deco(1)
@@ -30,7 +31,7 @@ class TestDecoratoirs(unittest.TestCase):
         with self.assertRaises(ZeroDivisionError):
             function_with_args()
 
-    def test_retry_on_exception(self):
+    def test_retry_on_exception_vith_custom(self):
         def runs_tests():
             start_coint = 0
 
