@@ -29,12 +29,14 @@ jobs:
         if: ${{ always() }}
         run: pylint ./*/*.py
 
+
       - name: Run tests with unittest
         if: ${{ always() }}
         run: |
           for dir in 01 02; do
             (cd $dir && python3 -m unittest *.py)
           done
+
 
       - name: Run tests with coverage
         run: |
