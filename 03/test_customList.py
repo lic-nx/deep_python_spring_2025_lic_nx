@@ -18,3 +18,9 @@ class TestCustomList(unittest.TestCase):
 
     def test_class_is_subclass(self):
        self.assertEqual(issubclass (CustomList, list), True)
+    
+    def test_class_like_list(self):
+        cl = CustomList()
+        cl.append(4)
+        cl.append(5)
+        self.assertEqual(cl,[4,5])
