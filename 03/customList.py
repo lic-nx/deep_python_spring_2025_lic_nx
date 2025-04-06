@@ -57,7 +57,7 @@ class CustomList(list):
             return res
         elif isinstance(other, int):
             return CustomList([i + other for i in self])
-        else:
+        else :
             raise("sub  with this data type is not supported.")
 
     def __radd__(self, other):
