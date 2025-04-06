@@ -2,7 +2,7 @@ import unittest
 import os
 import sys
 import inspect
-from customList import CustomList
+from customlist import CustomList
 
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
