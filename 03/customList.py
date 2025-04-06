@@ -29,7 +29,7 @@ class CustomList(list):
                 else [-i for i in other[len(self):]]
             )
             return res
-        elif isinstance(other, int):
+        if isinstance(other, int):
             return CustomList([i - other for i in self])
         raise ("sub  with this data type is not supported.")
 
@@ -42,7 +42,7 @@ class CustomList(list):
                 else other[len(self):]
             )
             return res
-        elif isinstance(other, int):
+        if isinstance(other, int):
             return CustomList([other - i for i in self])
         raise ("sub  with this data type is not supported.")
 
@@ -55,10 +55,9 @@ class CustomList(list):
                 else other[len(self):]
             )
             return res
-        elif isinstance(other, int):
+        if isinstance(other, int):
             return CustomList([i + other for i in self])
-        else :
-            raise("sub  with this data type is not supported.")
+        raise("sub  with this data type is not supported.")
 
     def __radd__(self, other):
         return self.__add__(other)
