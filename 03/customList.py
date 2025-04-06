@@ -23,7 +23,6 @@ class CustomList(list):
     def __sub__(self, other):
         if isinstance(other, (list, CustomList)):
             res = [a - b for a, b, in zip(self, other)]
-            
             res.extend(
                 self[len(other):]
                 if len(self) > len(other)

@@ -1,5 +1,3 @@
-from unittest.mock import mock_open
-from unittest import mock
 import unittest
 import os
 import sys
@@ -96,7 +94,7 @@ class TestCustomList(unittest.TestCase):
 
     def test_rsumm(self):
         cl = CustomList([1, 2, 4])
-        res = 2 + cl 
+        res = 2 + cl
         self.assertEqual(res, CustomList([3, 4, 6]))
         self.assertEqual(isinstance(res, CustomList), True)
         other_cl = [1, 1, 1, 1, 1, 1, 1]
