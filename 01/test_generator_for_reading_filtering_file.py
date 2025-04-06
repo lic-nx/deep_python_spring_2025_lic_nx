@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 class TestFilteredFileReader(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print("\nТестированае ггениратора")
+        print("\nТестированае гениратора")
 
     @mock.patch(
         "builtins.open",
