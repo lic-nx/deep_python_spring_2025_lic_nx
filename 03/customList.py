@@ -31,7 +31,7 @@ class CustomList(list):
             return res
         if isinstance(other, int):
             return CustomList([i - other for i in self])
-        raise "sub with this data type is not supported."
+        raise ValueError("sub with this data type is not supported.")
 
     def __rsub__(self, other):
         if isinstance(other, (list, CustomList)):
@@ -44,7 +44,7 @@ class CustomList(list):
             return res
         if isinstance(other, int):
             return CustomList([other - i for i in self])
-        raise "sub with this data type is not supported."
+        raise ValueError("sub with this data type is not supported.")
 
     def __add__(self, other):
         if isinstance(other, (list, CustomList)):
@@ -57,7 +57,7 @@ class CustomList(list):
             return res
         if isinstance(other, int):
             return CustomList([i + other for i in self])
-        raise "summ with this data type is not supported."
+        raise ValueError("summ with this data type is not supported.")
 
     def __radd__(self, other):
         return self.__add__(other)
