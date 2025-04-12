@@ -96,7 +96,7 @@ class TestFilteredFileReader(unittest.TestCase):
             \nнам иного выбора кроме определения модели развития",
     )
     def test_str_in_stop(self, mock_file):
-        find_words = ["нам", "иного", 
+        find_words = ["нам", "иного",
                       "выбора кроме определения модели развития"]
         stop_words = ["нам иного выбора кроме определения модели развития"]
         result = list(filtered_file_reader("mock_file", find_words, stop_words))
@@ -118,7 +118,7 @@ class TestFilteredFileReader(unittest.TestCase):
             \nэкономическая повестка сегодняшнего дня не даёт \
             \nнам иного выбора кроме определения модели развития",
     )
-    def test_str_in_stop(self, mock_file):
+    def test_full_str_in_stop(self, mock_file):
         find_words = [
             "нам иного выбора кроме определения модели развития "
             "открывает новые горизонты для стандартных подходов"
@@ -214,7 +214,7 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", 
+            result = list(filtered_file_reader("test_file.txt",
                                                find_words, stop_words))
             self.assertEqual(result, ["filtered text"])
 
@@ -235,7 +235,7 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", 
+            result = list(filtered_file_reader("test_file.txt",
                                                find_words, stop_words))
             self.assertEqual(result, [])
 
@@ -245,7 +245,7 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", 
+            result = list(filtered_file_reader("test_file.txt",
                                                find_words, stop_words))
             self.assertEqual(result, [])
 
