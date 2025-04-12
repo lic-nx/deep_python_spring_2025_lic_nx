@@ -28,14 +28,10 @@ class TestPredictMessageMood(unittest.TestCase):
     def test_vrong_params(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.return_value = 1.2
-
-            # Проверка выброса ValueError с сообщением "value err"
             with self.assertRaises(ValueError) as cm:
                 predict_message_mood("Чапаев и пустота")
                 mock_api.assert_called_with("Чапаев и пустота")
             self.assertEqual(str(cm.exception), "value err")
-
-            # Проверка выброса ValueError с сообщением "Err"
             with self.assertRaises(ValueError) as cm:
                 predict_message_mood("Чапаев и пустота", -1)
                 mock_api.assert_called_with("Чапаев и пустота")
@@ -53,8 +49,6 @@ class TestPredictMessageMood(unittest.TestCase):
     def test_boundary_conditions(self):
         with mock.patch.object(SomeModel, "predict") as mock_api:
             mock_api.side_effect = lambda x: float(x)
-
-            # Тесты для граничных условий
             self.assertEqual("норм", predict_message_mood("0.8"))
             self.assertEqual("отл", predict_message_mood("1.0"))
             self.assertEqual("неуд", predict_message_mood("0.0"))
@@ -64,7 +58,6 @@ class TestPredictMessageMood(unittest.TestCase):
             self.assertEqual("норм", predict_message_mood("0.8", 0.3, 0.8))
             self.assertEqual("отл", predict_message_mood("0.800001", 0.3, 0.8))
             self.assertEqual("норм", predict_message_mood("0.300001", 0.3, 0.8))
-            # Проверка, что строка, переданная в predict, соответствует ожидаемой
             mock_api.assert_any_call("0.8")
             mock_api.assert_any_call("1.0")
             mock_api.assert_any_call("0.0")

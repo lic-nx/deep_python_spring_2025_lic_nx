@@ -76,11 +76,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_empty_find_words(self, mock_file):
         find_words = []
         stop_words = ["азора"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             [],
@@ -102,11 +98,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_str_in_stop(self, mock_file):
         find_words = ["нам", "иного", "выбора кроме определения модели развития"]
         stop_words = ["нам иного выбора кроме определения модели развития"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             [],
@@ -128,11 +120,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_str_in_stop(self, mock_file):
         find_words = ["нам иного выбора кроме определения модели развития открывает новые горизонты для стандартных подходов"]
         stop_words = ["открывает новые горизонты для стандартных подходов"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             ["направлений прогрессивного развития",
@@ -155,11 +143,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_cchars(self, mock_file):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             ['С учётом сложившейся международной обстановки',
@@ -182,11 +166,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_register(self, mock_file):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             ['с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ',
@@ -209,11 +189,7 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_2_register(self, mock_file):
         find_words = ["нАм", "с"]
         stop_words = ["повестка", "КЛЮЧЕВЫЕ"]
-
-        # Преобразуем генератор в список для проверки результатов
         result = list(filtered_file_reader('mock_file', find_words, stop_words))
-
-        # Проверяем, что возвращается только одна строка
         self.assertEqual(
             result,
             ['с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ',
