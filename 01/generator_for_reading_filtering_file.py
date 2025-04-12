@@ -1,7 +1,7 @@
 def filtered_file_reader(filename, find_words, stop_words):
-    find_words = set(word.lower() for item in find_words 
+    find_words = set(word.lower() for item in find_words
                      for word in item.split())
-    stop_words = set(word.lower() for item in stop_words 
+    stop_words = set(word.lower() for item in stop_words
                      for word in item.split())
     if isinstance(filename, str):
         with open(filename, "r", encoding="utf-8") as file:
@@ -16,6 +16,6 @@ def filtered_file_reader(filename, find_words, stop_words):
                 yield line.strip()
     else:
         raise ValueError(
-            "Аргумент должен быть либо именем файла, " \
+            "Аргумент должен быть либо именем файла, "
             "либо файловым объектом"
         )
