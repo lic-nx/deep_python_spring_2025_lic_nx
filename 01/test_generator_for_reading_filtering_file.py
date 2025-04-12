@@ -22,7 +22,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["роза"]
         stop_words = ["азора"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(result, ["роза цветет"])
 
     @mock.patch(
@@ -34,7 +35,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["роза"]
         stop_words = ["азора"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(result, [])
 
     @mock.patch(
@@ -54,7 +56,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["нам", "а", "взгляд"]
         stop_words = ["азора"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [
@@ -80,7 +83,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = []
         stop_words = ["азора"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [],
@@ -100,10 +104,12 @@ class TestFilteredFileReader(unittest.TestCase):
             \nнам иного выбора кроме определения модели развития",
     )
     def test_str_in_stop(self, mock_file):
-        find_words = ["нам", "иного", "выбора кроме определения модели развития"]
+        find_words = ["нам", "иного",
+                      "выбора кроме определения модели развития"]
         stop_words = ["нам иного выбора кроме определения модели развития"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [],
@@ -129,7 +135,8 @@ class TestFilteredFileReader(unittest.TestCase):
         ]
         stop_words = ["открывает новые горизонты для стандартных подходов"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [
@@ -155,7 +162,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [
@@ -181,7 +189,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [
@@ -207,7 +216,8 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["нАм", "с"]
         stop_words = ["повестка", "КЛЮЧЕВЫЕ"]
         with mock.patch("builtins.open", mock_file):
-            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            result = list(filtered_file_reader("mock_file",
+                                               find_words, stop_words))
             self.assertEqual(
                 result,
                 [
@@ -222,7 +232,8 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", find_words, stop_words))
+            result = list(filtered_file_reader("test_file.txt",
+                                               find_words, stop_words))
             self.assertEqual(result, ["filtered text"])
 
     def test_file_object_valid(self):
@@ -242,7 +253,8 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", find_words, stop_words))
+            result = list(filtered_file_reader("test_file.txt",
+                                               find_words, stop_words))
             self.assertEqual(result, [])
 
     def test_no_matches(self):
@@ -251,7 +263,8 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["stop"]
 
         with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = list(filtered_file_reader("test_file.txt", find_words, stop_words))
+            result = list(filtered_file_reader("test_file.txt",
+                                               find_words, stop_words))
             self.assertEqual(result, [])
 
     def test_invalid_argument(self):
