@@ -15,7 +15,7 @@ def predict_message_mood(
     if not 0 <= bad_thresholds <= good_thresholds <= 1:
         raise ValueError("Err")
     accuracy_prediction = model.predict(message)
-    if good_thresholds <= accuracy_prediction <= 1:
+    if good_thresholds < accuracy_prediction <= 1:
         return "отл"
     if 0 <= accuracy_prediction < bad_thresholds:
         return "неуд"
