@@ -21,8 +21,9 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_from_example(self, mock_file):
         find_words = ["роза"]
         stop_words = ["азора"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(result, ["роза цветет"])
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(result, ["роза цветет"])
 
     @mock.patch(
         "builtins.open",
@@ -32,8 +33,9 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_empty(self, mock_file):
         find_words = ["роза"]
         stop_words = ["азора"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(result, [])
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(result, [])
 
     @mock.patch(
         "builtins.open",
@@ -51,14 +53,15 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_alot_find_words_with_filename(self, mock_file):
         find_words = ["нам", "а", "взгляд"]
         stop_words = ["азора"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [
-                "а также свежий взгляд на привычные вещи безусловно",
-                "нам иного выбора кроме определения модели развития",
-            ],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [
+                    "а также свежий взгляд на привычные вещи безусловно",
+                    "нам иного выбора кроме определения модели развития",
+                ],
+            )
 
     @mock.patch(
         "builtins.open",
@@ -76,11 +79,12 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_empty_find_words(self, mock_file):
         find_words = []
         stop_words = ["азора"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [],
+            )
 
     @mock.patch(
         "builtins.open",
@@ -99,11 +103,12 @@ class TestFilteredFileReader(unittest.TestCase):
         find_words = ["нам", "иного",
                       "выбора кроме определения модели развития"]
         stop_words = ["нам иного выбора кроме определения модели развития"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [],
+            )
 
     @mock.patch(
         "builtins.open",
@@ -124,14 +129,15 @@ class TestFilteredFileReader(unittest.TestCase):
             "открывает новые горизонты для стандартных подходов"
         ]
         stop_words = ["открывает новые горизонты для стандартных подходов"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [
-                "направлений прогрессивного развития",
-                "нам иного выбора кроме определения модели развития",
-            ],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [
+                    "направлений прогрессивного развития",
+                    "нам иного выбора кроме определения модели развития",
+                ],
+           )
 
     @mock.patch(
         "builtins.open",
@@ -149,14 +155,15 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_cchars(self, mock_file):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [
-                "С учётом сложившейся международной обстановки",
-                "а также свежий взгляд на привычные вещи безусловно",
-            ],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [
+                    "С учётом сложившейся международной обстановки",
+                    "а также свежий взгляд на привычные вещи безусловно",
+                ],
+            )
 
     @mock.patch(
         "builtins.open",
@@ -174,14 +181,15 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_register(self, mock_file):
         find_words = ["а", "с"]
         stop_words = ["д", "в"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [
-                "с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ",
-                "А тАкЖе СвЕжИй ВзГлЯд нА пРиВыЧнЫе ВеЩи бЕзУсЛоВнО",
-            ],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [
+                    "с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ",
+                    "А тАкЖе СвЕжИй ВзГлЯд нА пРиВыЧнЫе ВеЩи бЕзУсЛоВнО",
+                ],
+            )
 
     @mock.patch(
         "builtins.open",
@@ -199,14 +207,15 @@ class TestFilteredFileReader(unittest.TestCase):
     def test_check_2_register(self, mock_file):
         find_words = ["нАм", "с"]
         stop_words = ["повестка", "КЛЮЧЕВЫЕ"]
-        result = list(filtered_file_reader("mock_file", find_words, stop_words))
-        self.assertEqual(
-            result,
-            [
-                "с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ",
-                "НАм ИнОгО вЫбОрА кРоМе ОпРеДеЛеНиЯ мОдЕлИ рАзВиТиЯ",
-            ],
-        )
+        with mock.patch("builtins.open", mock_file):
+            result = list(filtered_file_reader("mock_file", find_words, stop_words))
+            self.assertEqual(
+                result,
+                [
+                    "с УчЁТоМ слОжИвШеЙсЯ мЕжДуНарОдНоЙ оБсТаНоВкИ",
+                    "НАм ИнОгО вЫбОрА кРоМе ОпРеДеЛеНиЯ мОдЕлИ рАзВиТиЯ",
+                ],
+            )
 
     def test_filename_valid(self):
         mock_file_content = "hello world\nfiltered text\nstop words here"
