@@ -6,3 +6,5 @@ disable=
 
 [FORMAT]
 max-line-length=80
+[MESSAGES CONTROL]
+disable=no-member

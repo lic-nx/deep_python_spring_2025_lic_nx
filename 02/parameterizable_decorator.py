@@ -16,6 +16,7 @@ def retry_deco(restarts: int, exceptions: list = ()):
 {args, kwargs} номер попытки: {i}, ошибка: {e}"
                     )
                 else:
+                    print("вызов прошел успешно")
                     break
             # If all retries are exhausted, raise the last exception
             if i >= restarts:

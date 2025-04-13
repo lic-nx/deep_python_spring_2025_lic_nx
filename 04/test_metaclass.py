@@ -1,6 +1,4 @@
 import unittest
-import os
-import sys
 import inspect
 from metaclass import *
 
