@@ -39,7 +39,7 @@ class TestMetaclass(unittest.TestCase):
         with self.assertRaises(AttributeError):
             getattr(inst.__exm)
 
-    def test_exanple(self):
+    def test_example(self):
         self.assertEqual(CustomClass.custom_x, 50)
         with self.assertRaises(AttributeError):
             getattr(CustomClass, "x")
