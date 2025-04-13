@@ -7,4 +7,4 @@ disable=
 [FORMAT]
 max-line-length=80
 [MESSAGES CONTROL]
-disable=no-member
+disable=no-member, unused-private-member, protected-access

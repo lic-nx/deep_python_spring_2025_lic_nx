@@ -1,6 +1,6 @@
 import unittest
 import inspect
-from metaclass import *
+from metaclass import CustomClass, CustomMeta
 
 
 class TestMetaclass(unittest.TestCase):

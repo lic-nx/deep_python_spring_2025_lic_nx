@@ -1,8 +1,8 @@
 class CustomMeta(type):
     @staticmethod
-    def custom_setattr(self, attr_name, attr_value):
+    def custom_setattr(clas, attr_name, attr_value):
         object.__setattr__(
-            self,
+            clas,
             (
                 attr_name
                 if attr_name.startswith("__")
@@ -13,7 +13,7 @@ class CustomMeta(type):
             attr_value,
         )
 
-    def __new__(cls, name, bases, dct, **kwargs):
+    def __new__(mcs, name, bases, dct, **kwargs):
         dct = {
             (
                 f"custom_{key}"
@@ -25,7 +25,7 @@ class CustomMeta(type):
             for key, value in dct.items()
         }
         dct["__setattr__"] = CustomMeta.custom_setattr
-        return super().__new__(cls, name, bases, dct, **kwargs)
+        return super().__new__(mcs, name, bases, dct, **kwargs)
 
 
 class CustomClass(metaclass=CustomMeta):
