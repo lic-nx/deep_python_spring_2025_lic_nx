@@ -15,12 +15,15 @@ def retry_deco(restarts: int, exceptions: list = ()):
                         f"Вызов функции: {func.__name__} с аргументами \
 {args, kwargs} номер попытки: {i}, ошибка: {e}"
                     )
+                    if i >= restarts:
+                        raise e
+                except Exception as e:
+                    raise e
                 else:
                     print("вызов прошел успешно")
                     break
             # If all retries are exhausted, raise the last exception
-            if i >= restarts:
-                print("The number of restarts has been exceeded")
+           
             return func(*args, **kwargs)
 
         return catching_errors
