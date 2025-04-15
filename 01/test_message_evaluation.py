@@ -18,7 +18,8 @@ class TestPredictMessageMood(unittest.TestCase):
             mock_api.side_effect = [0.9, 0.9, 0.2]
             str_for_send = "Чапаев и пустота"
             self.assertEqual("отл", predict_message_mood(str_for_send))
-            self.assertEqual("норм", predict_message_mood(str_for_send, 0.8, 0.99))
+            self.assertEqual("норм",
+                             predict_message_mood(str_for_send, 0.8, 0.99))
             mock_api.assert_called_with(str_for_send)
             self.assertEqual("неуд", predict_message_mood("Вулкан"))
             mock_api.assert_called_with("Вулкан")
