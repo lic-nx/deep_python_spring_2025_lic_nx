@@ -57,7 +57,7 @@ class TestFilteredFileReader(unittest.TestCase):
         stop_words = ["азора"]
         with mock.patch("builtins.open", mock_file):
             result = list(filtered_file_reader("mock_file",
-                                                find_words, stop_words))
+                                              find_words, stop_words))
             self.assertEqual(
                 result,
                 [
