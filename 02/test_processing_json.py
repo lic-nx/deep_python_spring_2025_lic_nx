@@ -125,7 +125,9 @@ class TestProcessJson(unittest.TestCase):
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         expected_calls = [
+            unittest.mock.call("ID", "SGML"),
             unittest.mock.call("ID", "sgml"),
+            unittest.mock.call("SortAs", "SGML"),
             unittest.mock.call("SortAs", "sgml"),
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
