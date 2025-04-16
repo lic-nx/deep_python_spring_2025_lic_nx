@@ -20,20 +20,21 @@ class TestProcessJson(unittest.TestCase):
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         expected_calls = [
-            unittest.mock.call("key1", "WORD1"),
-            unittest.mock.call("key1", "word2"),
-            unittest.mock.call("key2", "word2"),
-        ]
+                            unittest.mock.call("key1", "WORD1"),
+                            unittest.mock.call("key1", "word2"),
+                            unittest.mock.call("key2", "word2"),
+                        ]
         callback.assert_has_calls(expected_calls, any_order=True)
-        self.assertEqual(callback.call_count, len(expected_calls), 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
+        
     def test_empty_input(self):
         json_str = ""
         required_keys = []
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
-        self.assertEqual(callback.call_count, 0, 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_empty_keys(self):
         json_str = """{"ID": "SGML",
@@ -45,8 +46,8 @@ class TestProcessJson(unittest.TestCase):
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         callback.assert_not_called()
-        self.assertEqual(callback.call_count, 0, 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_required_key(self):
         # Define a sample JSON string
@@ -59,8 +60,8 @@ class TestProcessJson(unittest.TestCase):
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         callback.assert_not_called()
-        self.assertEqual(callback.call_count, 0, 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_tokens_key(self):
         # Define a sample JSON string
@@ -73,8 +74,8 @@ class TestProcessJson(unittest.TestCase):
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         callback.assert_not_called()
-        self.assertEqual(callback.call_count, 0, 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_tokens(self):
         json_str = """{"ID": "SGML",
@@ -90,8 +91,8 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call("ID", "sgml")
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
-        self.assertEqual(callback.call_count, len(expected_calls), 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_empty_tokens(self):
         json_str = """{"ID": "SGML SGML",
@@ -110,8 +111,8 @@ class TestProcessJson(unittest.TestCase):
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
         print("Фактические вызовы:", callback.mock_calls)
-        self.assertEqual(callback.call_count, len(expected_calls), 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
         # callback.assert_not_called()
 
     def test_registers(self):
@@ -128,5 +129,5 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call("SortAs", "sgml"),
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
-        self.assertEqual(callback.call_count, len(expected_calls), 
-                     "Обнаружены дополнительные вызовы callback!")
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
