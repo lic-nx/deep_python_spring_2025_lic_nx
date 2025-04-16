@@ -35,7 +35,8 @@ class TestProcessJson(unittest.TestCase):
         process_json(json_str, required_keys, tokens, callback)
         self.assertEqual(callback.call_count, 0,
                          "Обнаружены дополнительные вызовы callback!")
-    def test_empty_tokens(self):
+
+    def test_empty_tokens_keys(self):
         json_str = """{"ID": "SGML",
                     "SortAs": "SGML",
                     "GlossTerm": "Standard Generalized Markup Language",
@@ -89,6 +90,7 @@ class TestProcessJson(unittest.TestCase):
         callback.assert_not_called()
         self.assertEqual(callback.call_count, 0,
                          "Обнаружены дополнительные вызовы callback!")
+
     def test_dublicates_keys(self):
         # Define a sample JSON string
         json_str = """{"ID": "SGML_noe WORD1",
@@ -103,7 +105,7 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call('ID', 'WORD1'),
             unittest.mock.call('ID', 'WORD1')
         ]
-        callback.assert_not_called()
+        callback.assert_has_calls(expected_calls, any_order=True)
         self.assertEqual(callback.call_count, len(expected_calls),
                          "Обнаружены дополнительные вызовы callback!")
 
