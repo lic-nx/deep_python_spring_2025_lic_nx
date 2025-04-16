@@ -1,39 +1,78 @@
+import re
+import sys
+
 # тесты нужно для класса в который помещен дескриптор(
-# выбрана тема - компьютерные игры 
-# Дескрипторы - Шкала здоровья, элементов в инвентаре, позиция в мире
+# выбрана тема - компьютерные игры
+# Дескрипторы - Шкала здоровья, характеристики(например сила, ловкость), имя
 
-class HealthBarDescriptor:
-    def __init__(self, default=100):
-        self.default = default
 
+class BaseDescriptor:
     def __set_name__(self, owner, name):
-        print(f"set name: {owner=}, {name=}")
-        self.name = f"_hidden_int_{owner}_{name}"
-        self.default_name = f"_hidden_int_{owner}_{name}_default"
+        self.value = f"_hidden_int_{owner}_{name}"
 
-
-    def __get__(self, obj):
+    def __get__(self, obj, objtype):
         if obj is None:
             return None
-        return obj.__dict__[self.name], obj.__dict__[self.default_name]
-        # return getattr(obj, self.name)
+        return obj.__dict__[self.value]
 
-    def __set__(self, obj, val, max_val = None):
-        # если персонаж увеличивает макс. значение здоровья
-        print(f"set {val} for {obj}")
-        if max_val != None and max_val != obj.__dict__[self.default_name]:
-            obj.__dict__[self.default_name] = max_val
+
+class BarDescriptor(BaseDescriptor):
+    #  измеряем в процентах
+    # на персонажа могут накинуть урон
+    # который больше его жизней
+    # на персонажа могут накинуть дебав,
+    # который будет высасывать ману даже при минусе значения
+
+    def __set__(self, obj, val):
+        if not isinstance(val, (int, float)):
+            raise TypeError(
+                "Значение должно быть либо целочисленное,"
+                "либо с плавующей точкой"
+            )
+        # не может быть больше 100% и меньше 0%
+        val = max(0, min(val, 100))
+        obj.__dict__[self.value] = val
+
+
+class CharactiristicDescriptor(BaseDescriptor):
+    # отражать что за характеристика будет ссылка на дескриптор
+    # считаем, что есть целочисленная шкала навыков умения
+    # предолов верхних нет.
+    def __set__(self, obj, val):
+        # предполагаем, что на шкале навыков игрок может как откатывать умения
         if not isinstance(val, int):
-            raise ValueError("wrong value of health")
-        val = max(0, min(val, max_val))
-        obj.__dict__[self.name] = val
+            raise TypeError("принимаются только целочисленные значения")
+        if val > sys.maxsize:
+            raise ValueError("слишком большое значение")
+        if val < 0:
+            raise ValueError("Значение навыка не может быть отрицательным")
+        obj.__dict__[self.value] = val
 
 
+class NameDescriptor(BaseDescriptor):
+    def __set__(self, obj, name):
+        # в имени не должно быть цифр или спц. символов кроме точки и тире
+        # mr.Martin тоже считаем за имя
+        if not isinstance(name, str):
+            raise TypeError("принимаются только строки")
+        name = name.lower()
+        pattern = r"^[a-zа-я '.-]*[a-zа-я][a-zа-я '.-]*$"
+        if not re.match(pattern, name):
+            raise ValueError("Имя не подходит")
+        obj.__dict__[self.value] = name.title()
 
-class MainCharacter:
-        health = HealthBarDescriptor()
-        name = String()
-        price = PositiveInteger()
 
-        def __init__(...):
-            ....
+class Character:
+    health = BarDescriptor()
+    magic = BarDescriptor()
+    name = NameDescriptor()
+    power = CharactiristicDescriptor()
+    dexterity = CharactiristicDescriptor()
+
+    def __init__(self, name="John Doe", health=100,
+                 magic=100, power=0, dexterity=0):
+        self.name = name
+        self.health = health
+        self.magic = magic
+        self.power = power
+        self.dexterity = dexterity
