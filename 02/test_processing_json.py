@@ -27,7 +27,7 @@ class TestProcessJson(unittest.TestCase):
         callback.assert_has_calls(expected_calls, any_order=True)
         self.assertEqual(callback.call_count, len(expected_calls),
                          "Обнаружены дополнительные вызовы callback!")
-        
+
     def test_empty_input(self):
         json_str = ""
         required_keys = []
