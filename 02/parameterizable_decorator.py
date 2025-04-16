@@ -1,7 +1,7 @@
 from functools import wraps
 
 
-def retry_deco(restarts = 1: int, exceptions=None: list = ()):
+def retry_deco(restarts: int = 1, exceptions: list = None):
     if exceptions == None:
         exceptions = []
     if restarts < 1:
