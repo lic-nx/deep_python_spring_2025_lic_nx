@@ -18,9 +18,13 @@ def retry_deco(restarts: int, exceptions: list = ()):
                     if i >= restarts:
                         raise e
                 except Exception as e:
+                    i += 1
                     raise e
                 else:
-                    print("вызов прошел успешно")
+                    print(
+                        f"Вызов функции: {func.__name__} с аргументами \
+{args, kwargs} номер попытки: {i}"
+                    )
                     break
             return func(*args, **kwargs)
         return catching_errors
