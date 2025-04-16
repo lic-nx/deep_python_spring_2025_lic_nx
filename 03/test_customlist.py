@@ -113,7 +113,7 @@ class TestCustomList(unittest.TestCase):
         self.assertIsInstance(res, CustomList)
         self.assertEqual(other_cl, [1, 1, 1, 1, 1, 1, 1])
         self.assertIsInstance(cl, CustomList)
-        self.assertIsInstance(other_cl, List)
+        self.assertIsInstance(other_cl, list)
         
     def test_rsumm(self):
         cl = CustomList([1, 2, 4])
@@ -126,7 +126,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(other_cl, [1, 1, 1, 1, 1, 1, 1])
         self.assertIsInstance(res, CustomList)
         self.assertIsInstance(cl, CustomList)
-        self.assertIsInstance(other_cl, List)
+        self.assertIsInstance(other_cl, list)
 
     def test_cl_longest_summ(self):
         cl = CustomList([1, 2, 4, 5])
@@ -136,7 +136,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(other_cl, [1, 1])
         self.assertIsInstance(res, CustomList)
         self.assertIsInstance(cl, CustomList)
-        self.assertIsInstance(other_cl, CustomList)
+        self.assertIsInstance(other_cl, list)
 
     def test_cl_summ(self):
         cl = CustomList([1, 2, 4, 5])
