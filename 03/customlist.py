@@ -1,3 +1,6 @@
+from itertools import zip_longest
+
+
 class CustomList(list):
     def __eq__(self, value):
         return sum(self) == sum(value)
@@ -22,12 +25,8 @@ class CustomList(list):
 
     def __sub__(self, other):
         if isinstance(other, (list, CustomList)):
-            res = [a - b for a, b, in zip(self, other)]
-            res.extend(
-                self[len(other):]
-                if len(self) > len(other)
-                else [-i for i in other[len(self):]]
-            )
+            res = CustomList([a - b for a, b in
+                              zip_longest(self, other, fillvalue=0)])
             return res
         if isinstance(other, int):
             return CustomList([i - other for i in self])
@@ -35,12 +34,8 @@ class CustomList(list):
 
     def __rsub__(self, other):
         if isinstance(other, (list, CustomList)):
-            res = [a - b for a, b, in zip(other, self)]
-            res.extend(
-                self[len(other):]
-                if len(self) > len(other)
-                else other[len(self):]
-            )
+            res = CustomList([a - b for a, b in
+                              zip_longest(other, self, fillvalue=0)])
             return res
         if isinstance(other, int):
             return CustomList([other - i for i in self])
@@ -48,15 +43,11 @@ class CustomList(list):
 
     def __add__(self, other):
         if isinstance(other, (list, CustomList)):
-            res = [a + b for a, b, in zip(self, other)]
-            res.extend(
-                self[len(other):]
-                if len(self) > len(other)
-                else other[len(self):]
-            )
+            res = CustomList([a + b for a, b
+                              in zip_longest(self, other, fillvalue=0)])
             return res
         if isinstance(other, int):
-            return CustomList([i + other for i in self])
+            return CustomList(i + other for i in self)
         raise ValueError("summ with this data type is not supported.")
 
     def __radd__(self, other):

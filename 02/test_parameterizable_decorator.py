@@ -24,7 +24,7 @@ class TestDecoratoirs(unittest.TestCase):
         assert result == 1
 
     def test_retry_on_exception(self):
-        @retry_deco(restarts=1, exceptions=[TrivialException])
+        @retry_deco(restarts=1, exceptions=TrivialException)
         def function_with_args():
             return 1 / 0
 
@@ -35,7 +35,7 @@ class TestDecoratoirs(unittest.TestCase):
         def runs_tests():
             start_coint = 0
 
-            @retry_deco(restarts=2, exceptions=[ZeroDivisionError])
+            @retry_deco(restarts=2, exceptions=ZeroDivisionError)
             def function_with_args(value: int):
                 nonlocal start_coint
                 if start_coint < 1:

@@ -5,9 +5,11 @@ from unittest.mock import Mock
 from processing_json import process_json
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+tokens = ["WORD1", "word2", "mArkup", "SGML", "SGML1", "", "Markup", "sgml"]
 
 
 class TestProcessJson(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\nТестированае парсинга строки")
@@ -15,23 +17,38 @@ class TestProcessJson(unittest.TestCase):
     def test_example(self):
         json_str = '{"key1": "Word1 word2", "key2": "word2 word3"}'
         required_keys = ["key1", "key2"]
-        tokens = ["WORD1", "word2"]
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         expected_calls = [
-            unittest.mock.call("key1", "WORD1"),
-            unittest.mock.call("key1", "word2"),
-            unittest.mock.call("key2", "word2"),
-        ]
+                            unittest.mock.call("key1", "WORD1"),
+                            unittest.mock.call("key1", "word2"),
+                            unittest.mock.call("key2", "word2"),
+                        ]
         callback.assert_has_calls(expected_calls, any_order=True)
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_empty_input(self):
         json_str = ""
         required_keys = []
-        tokens = []
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
+
+    def test_empty_tokens_keys(self):
+        json_str = """{"ID": "SGML",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
+        required_keys = []
+        callback = Mock()
+        no_token = []
+        process_json(json_str, required_keys, no_token, callback)
         callback.assert_not_called()
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_empty_keys(self):
         json_str = """{"ID": "SGML",
@@ -40,10 +57,11 @@ class TestProcessJson(unittest.TestCase):
                     "Acronym": "SGML",
                     "Abbrev": "ISO 8879:1986"}"""
         required_keys = []
-        tokens = ["mArkup"]
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
         callback.assert_not_called()
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_required_key(self):
         # Define a sample JSON string
@@ -53,74 +71,96 @@ class TestProcessJson(unittest.TestCase):
                     "Acronym": "SGML",
                     "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["key3"]
-        tokens = ["SGML"]
-
-        # Create a mock callback function
         callback = Mock()
-
-        # Call the function
         process_json(json_str, required_keys, tokens, callback)
-
-        # Assert that the callback was not called
         callback.assert_not_called()
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
+
+    def test_missing_tokens_key(self):
+        # Define a sample JSON string
+        json_str = """{"ID": "SGML_noe",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
+        required_keys = ["ID"]
+        callback = Mock()
+        process_json(json_str, required_keys, tokens, callback)
+        callback.assert_not_called()
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
+
+    def test_dublicates_keys(self):
+        # Define a sample JSON string
+        json_str = """{"ID": "SGML_noe WORD1",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
+        required_keys = ["ID", "ID", "id"]
+        callback = Mock()
+        process_json(json_str, required_keys, tokens, callback)
+        expected_calls = [
+            unittest.mock.call('ID', 'WORD1'),
+            unittest.mock.call('ID', 'WORD1')
+        ]
+        callback.assert_has_calls(expected_calls, any_order=True)
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_tokens(self):
-        # Define a sample JSON string
         json_str = """{"ID": "SGML",
                     "SortAs": "SGML",
                     "GlossTerm": "Standard Generalized Markup Language",
                     "Acronym": "SGML",
                     "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID"]
-        tokens = ["SGML1"]
-
-        # Create a mock callback function
         callback = Mock()
-
-        # Call the function
         process_json(json_str, required_keys, tokens, callback)
-
-        # Assert that the callback was not called
-        callback.assert_not_called()
+        expected_calls = [
+            unittest.mock.call("ID", "SGML"),
+            unittest.mock.call("ID", "sgml")
+        ]
+        callback.assert_has_calls(expected_calls, any_order=True)
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_empty_tokens(self):
-        # Define a sample JSON string
-        json_str = """{"ID": "SGML",
+        json_str = """{"ID": "SGML SGML",
                     "SortAs": "SGML",
                     "GlossTerm": "Standard Generalized Markup Language",
                     "Acronym": "SGML",
                     "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID"]
-        tokens = []
-
-        # Create a mock callback function
         callback = Mock()
-
-        # Call the function
         process_json(json_str, required_keys, tokens, callback)
-
-        # Assert that the callback was not called
-        callback.assert_not_called()
+        expected_calls = [
+            unittest.mock.call("ID", "SGML"),
+            unittest.mock.call("ID", "SGML"),
+            unittest.mock.call("ID", "sgml"),
+            unittest.mock.call('ID', 'sgml')
+        ]
+        callback.assert_has_calls(expected_calls, any_order=True)
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")
+        # callback.assert_not_called()
 
     def test_registers(self):
-        # Define a sample JSON string
         json_str = """{"ID": "SGML",
                     "SortAs": "SGML",
                     "GlossTerm": "Standard Generalized Markup Language",
                     "Acronym": "SGML",
                     "Abbrev": "ISO 8879:1986"}"""
         required_keys = ["ID", "SortAs", "glossterm"]
-        tokens = ["Markup", "sgml"]
-
-        # Create a mock callback function
         callback = Mock()
-
-        # Call the function
         process_json(json_str, required_keys, tokens, callback)
-
-        # Assert that the callback was not called
         expected_calls = [
+            unittest.mock.call("ID", "SGML"),
             unittest.mock.call("ID", "sgml"),
+            unittest.mock.call("SortAs", "SGML"),
             unittest.mock.call("SortAs", "sgml"),
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
+        self.assertEqual(callback.call_count, len(expected_calls),
+                         "Обнаружены дополнительные вызовы callback!")

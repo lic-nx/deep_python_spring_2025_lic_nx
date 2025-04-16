@@ -15,5 +15,6 @@ def process_json(
         if key in data.keys():
             data_tokens = list(map(lambda x: x.lower(), data[key].split(" ")))
             for token in tokens:
-                if token.lower() in data_tokens:
+                count = data_tokens.count(token.lower())
+                for _ in range(count):
                     callback(key, token)

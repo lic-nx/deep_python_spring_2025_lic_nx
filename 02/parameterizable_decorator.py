@@ -1,27 +1,40 @@
 from functools import wraps
 
 
-def retry_deco(restarts: int, exceptions: list = ()):
+def retry_deco(restarts: int = 1, exceptions: list = None):
+    if exceptions is None:
+        exceptions = (Exception,)
+    elif isinstance(exceptions, type) and issubclass(exceptions, BaseException):
+        exceptions = (exceptions,)
+    else:
+        raise TypeError("Параметр 'exceptions'- класс исключения или их кортеж")
+
+    if restarts < 1:
+        raise ValueError(
+            "retries не может быть отрицптельным"
+        )
+    template = 'Вызов функции: {} с аргументами {} {}. Номер попытки: {}'
+
     def call_logging(func):
         @wraps(func)
         def catching_errors(*args, **kwargs):
             i = 0
             while i < restarts:
                 try:
-                    return func(*args, **kwargs)
-                except tuple(exceptions) as e:
+                    result = func(*args, **kwargs)
+                    print(template.format(func.__name__, args,
+                                          kwargs, i) + f", результат: {result}")
+                    return result
+                except exceptions as e:
                     i += 1
                     print(
-                        f"Вызов функции: {func.__name__} с аргументами \
-{args, kwargs} номер попытки: {i}, ошибка: {e}"
-                    )
-                else:
-                    break
-            # If all retries are exhausted, raise the last exception
-            if i >= restarts:
-                print("The number of restarts has been exceeded")
+                        template.format(func.__name__, args,
+                                        kwargs, i) + " ошибка: {e}")
+                    if i >= restarts:
+                        raise e
+                except Exception as e:
+                    i += 1
+                    raise e
             return func(*args, **kwargs)
-
         return catching_errors
-
     return call_logging

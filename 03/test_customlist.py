@@ -8,6 +8,15 @@ from customlist import CustomList
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
+def is_equal(left, right):
+    if len(left) != len(right):
+        return False
+    for i, b in zip(left, right):
+        if i != b:
+            return False
+    return True
+
+
 class TestCustomList(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -19,11 +28,32 @@ class TestCustomList(unittest.TestCase):
     def test_class_is_subclass(self):
         self.assertEqual(issubclass(CustomList, list), True)
 
+    def test_from_exsample(self):
+        self.assertTrue(
+            is_equal(
+                CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]),
+                CustomList([6, 3, 10, 7]),
+            )
+        )
+        self.assertEqual(CustomList([10]) + [2, 5], CustomList([12, 5]))
+        self.assertEqual([2, 5] + CustomList([10]), CustomList([12, 5]))
+        self.assertEqual(CustomList([2, 5]) + 10, CustomList([12, 15]))
+        self.assertEqual(10 + CustomList([2, 5]), CustomList([12, 15]))
+        self.assertEqual(
+            CustomList([5, 1, 3, 7]) - CustomList([1, 2, 7]),
+            CustomList([4, -1, -4, 7])
+        )
+        self.assertEqual(CustomList([10]) - [2, 5], CustomList([8, -5]))
+        self.assertEqual([2, 5] - CustomList([10]), CustomList([-8, 5]))
+        self.assertEqual(CustomList([2, 5]) - 10, CustomList([-8, -5]))
+        self.assertEqual(10 - CustomList([2, 5]), CustomList([8, 5]))
+
     def test_class_like_list(self):
         cl = CustomList()
         cl.append(4)
         cl.append(5)
         self.assertEqual(cl, [4, 5])
+        self.assertIsInstance(cl, CustomList)
 
     def test_equao(self):
         cl = CustomList([1, 2, 3, 4])
@@ -31,6 +61,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl == other_cl, True)
         cl.append(5)
         self.assertEqual(cl != other_cl, True)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_greate_then(self):
         cl = CustomList([1, 2, 3, 4])
@@ -38,6 +70,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl > other_cl, False)
         cl.append(5)
         self.assertEqual(cl > other_cl, True)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_less_then(self):
         cl = CustomList([1, 2, 3, 4])
@@ -45,6 +79,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl < other_cl, True)
         cl.append(5)
         self.assertEqual(cl < other_cl, False)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_greate_egual_then(self):
         cl = CustomList([1, 2, 3, 4])
@@ -91,7 +127,10 @@ class TestCustomList(unittest.TestCase):
         other_cl = [1, 1, 1, 1, 1, 1, 1]
         res = cl + other_cl
         self.assertEqual(res, [2, 3, 5, 1, 1, 1, 1])
+        self.assertIsInstance(res, CustomList)
         self.assertEqual(other_cl, [1, 1, 1, 1, 1, 1, 1])
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, list)
 
     def test_rsumm(self):
         cl = CustomList([1, 2, 4])
@@ -102,3 +141,26 @@ class TestCustomList(unittest.TestCase):
         res = other_cl + cl
         self.assertEqual(res, [2, 3, 5, 1, 1, 1, 1])
         self.assertEqual(other_cl, [1, 1, 1, 1, 1, 1, 1])
+        self.assertIsInstance(res, CustomList)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, list)
+
+    def test_cl_longest_summ(self):
+        cl = CustomList([1, 2, 4, 5])
+        other_cl = [1, 1]
+        res = other_cl + cl
+        self.assertEqual(res, [2, 3, 4, 5])
+        self.assertEqual(other_cl, [1, 1])
+        self.assertIsInstance(res, CustomList)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, list)
+
+    def test_cl_summ(self):
+        cl = CustomList([1, 2, 4, 5])
+        other_cl = CustomList([1, 1])
+        res = other_cl + cl
+        self.assertEqual(res, [2, 3, 4, 5])
+        self.assertEqual(other_cl, [1, 1])
+        self.assertIsInstance(res, CustomList)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
