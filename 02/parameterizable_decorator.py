@@ -3,7 +3,9 @@ from functools import wraps
 
 def retry_deco(restarts: int = 1, exceptions: list = None):
     if exceptions is None:
-        exceptions = []
+        exceptions = (Exception,)  # По умолчанию перехватываем все исключения
+    elif not isinstance(exceptions, tuple):
+        exceptions = (exceptions,)
     if restarts < 1:
         raise ValueError(
             "retries не может быть отрицптельным"
@@ -20,7 +22,7 @@ def retry_deco(restarts: int = 1, exceptions: list = None):
                     print(template.format(func.__name__, args,
                                           kwargs, i) + f", результат: {result}")
                     return result
-                except tuple(exceptions) as e:
+                except exceptions as e:
                     i += 1
                     print(
                         template.format(func.__name__, args,
