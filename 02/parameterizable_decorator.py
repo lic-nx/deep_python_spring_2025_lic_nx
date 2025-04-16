@@ -21,11 +21,7 @@ def retry_deco(restarts: int, exceptions: list = ()):
                     raise e
                 else:
                     print("вызов прошел успешно")
-                    break
-            # If all retries are exhausted, raise the last exception
-           
+                    break           
             return func(*args, **kwargs)
-
         return catching_errors
-
     return call_logging
