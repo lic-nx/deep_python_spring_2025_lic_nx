@@ -6,10 +6,6 @@ def retry_deco(restarts: int = 1, exceptions: list = None):
         exceptions = (Exception,)
     elif isinstance(exceptions, type) and issubclass(exceptions, BaseException):
         exceptions = (exceptions,)
-    elif isinstance(exceptions, tuple):
-        for exc in exceptions:
-            if not (isinstance(exc, type) and issubclass(exc, BaseException)):
-                raise TypeError(f"Некорректный тип исключения: {exc}")
     else:
         raise TypeError("Параметр 'exceptions'- класс исключения или их кортеж")
 
