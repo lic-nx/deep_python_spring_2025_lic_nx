@@ -5,9 +5,10 @@ from unittest.mock import Mock
 from processing_json import process_json
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+tokens = ["WORD1", "word2", "mArkup", "SGML", "SGML1", "", "Markup", "sgml"]
+
 
 class TestProcessJson(unittest.TestCase):
-    tokens = ["WORD1", "word2", "mArkup", "SGML", "SGML1", "", "Markup", "sgml"]
 
     @classmethod
     def setUpClass(cls):
