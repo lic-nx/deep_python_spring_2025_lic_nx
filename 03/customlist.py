@@ -1,4 +1,4 @@
-import itertools
+from itertools import zip_longest
 
 class CustomList(list):
     def __eq__(self, value):
