@@ -7,6 +7,7 @@ from customlist import CustomList
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
+
 def is_equal(left, right):
     if len(left) != len(right):
         return False
@@ -14,6 +15,7 @@ def is_equal(left, right):
         if i != b:
             return False
     return True
+
 
 class TestCustomList(unittest.TestCase):
     @classmethod
@@ -25,19 +27,27 @@ class TestCustomList(unittest.TestCase):
 
     def test_class_is_subclass(self):
         self.assertEqual(issubclass(CustomList, list), True)
-    
+
     def test_from_exsample(self):
-        self.assertTrue(is_equal(CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]), CustomList([6, 3, 10, 7])))
+        self.assertTrue(
+            is_equal(
+                CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]),
+                CustomList([6, 3, 10, 7]),
+            )
+        )
         self.assertEqual(CustomList([10]) + [2, 5], CustomList([12, 5]))
         self.assertEqual([2, 5] + CustomList([10]), CustomList([12, 5]))
         self.assertEqual(CustomList([2, 5]) + 10, CustomList([12, 15]))
         self.assertEqual(10 + CustomList([2, 5]), CustomList([12, 15]))
-        self.assertEqual(CustomList([5, 1, 3, 7]) - CustomList([1, 2, 7]), CustomList([4, -1, -4, 7]))
+        self.assertEqual(
+            CustomList([5, 1, 3, 7]) - CustomList([1, 2, 7]),
+            CustomList([4, -1, -4, 7])
+        )
         self.assertEqual(CustomList([10]) - [2, 5], CustomList([8, -5]))
         self.assertEqual([2, 5] - CustomList([10]), CustomList([-8, 5]))
-        self.assertEqual(CustomList([2, 5]) - 10 , CustomList([-8, -5]))
+        self.assertEqual(CustomList([2, 5]) - 10, CustomList([-8, -5]))
         self.assertEqual(10 - CustomList([2, 5]), CustomList([8, 5]))
-    
+
     def test_class_like_list(self):
         cl = CustomList()
         cl.append(4)
@@ -121,7 +131,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(other_cl, [1, 1, 1, 1, 1, 1, 1])
         self.assertIsInstance(cl, CustomList)
         self.assertIsInstance(other_cl, list)
-        
+
     def test_rsumm(self):
         cl = CustomList([1, 2, 4])
         res = 2 + cl
