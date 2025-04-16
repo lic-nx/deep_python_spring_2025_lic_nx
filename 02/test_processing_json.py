@@ -104,7 +104,7 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call('ID', 'WORD1')
         ]
         callback.assert_not_called()
-        self.assertEqual(callback.call_count, 0,
+        self.assertEqual(callback.call_count, len(expected_calls),
                          "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_tokens(self):
