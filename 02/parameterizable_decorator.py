@@ -4,8 +4,15 @@ from functools import wraps
 def retry_deco(restarts: int = 1, exceptions: list = None):
     if exceptions is None:
         exceptions = (Exception,)  # По умолчанию перехватываем все исключения
-    elif not isinstance(exceptions, tuple):
-        exceptions = (exceptions,)
+    elif isinstance(exceptions, type) and issubclass(exceptions, BaseException):
+        exceptions = (exceptions,)  # Преобразуем в кортеж, если передан один класс
+    elif isinstance(exceptions, tuple):
+        for exc in exceptions:
+            if not (isinstance(exc, type) and issubclass(exc, BaseException)):
+                raise TypeError(f"Некорректный тип исключения: {exc}")
+    else:
+        raise TypeError("Параметр 'exceptions' должен быть классом исключения или кортежем классов исключений.")
+
     if restarts < 1:
         raise ValueError(
             "retries не может быть отрицптельным"

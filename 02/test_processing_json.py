@@ -142,7 +142,6 @@ class TestProcessJson(unittest.TestCase):
             unittest.mock.call('ID', 'sgml')
         ]
         callback.assert_has_calls(expected_calls, any_order=True)
-        print("Фактические вызовы:", callback.mock_calls)
         self.assertEqual(callback.call_count, len(expected_calls),
                          "Обнаружены дополнительные вызовы callback!")
         # callback.assert_not_called()
