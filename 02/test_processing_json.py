@@ -89,6 +89,19 @@ class TestProcessJson(unittest.TestCase):
         callback.assert_not_called()
         self.assertEqual(callback.call_count, 0,
                          "Обнаружены дополнительные вызовы callback!")
+    def test_dublicates_keys(self):
+        # Define a sample JSON string
+        json_str = """{"ID": "SGML_noe WORD1",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986"}"""
+        required_keys = ["ID", "ID", "id"]
+        callback = Mock()
+        process_json(json_str, required_keys, tokens, callback)
+        callback.assert_not_called()
+        self.assertEqual(callback.call_count, 0,
+                         "Обнаружены дополнительные вызовы callback!")
 
     def test_missing_tokens(self):
         json_str = """{"ID": "SGML",
