@@ -31,6 +31,7 @@ class BarDescriptor(BaseDescriptor):
             )
         # не может быть больше 100% и меньше 0%
         val = max(0, min(val, 100))
+        val = round(val, 2)
         obj.__dict__[self.value] = val
 
 

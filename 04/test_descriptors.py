@@ -42,8 +42,6 @@ class TestMetaclass(unittest.TestCase):
         self.assertEqual(player.health, 100)
         player.health -= 0.5
         self.assertEqual(player.health, 99.5)
-        with self.assertRaises(TypeError):
-            player.health = 'dffd'
         player.health = 0
         self.assertEqual(player.health, 0)
         self.assertEqual(player.magic, 99)
@@ -54,14 +52,24 @@ class TestMetaclass(unittest.TestCase):
         player.magic /= 5
         self.assertEqual(player.magic, 20)
         self.assertEqual(player.health, 0)
-        with self.assertRaises(TypeError):
-            player.magic = 'dffd'
         self.assertEqual(player.magic, 20)
         self.assertEqual(player.health, 0)
+
+    def test_errors_bar(self):
+        player = Character(health=110, magic=99)
+        with self.assertRaises(TypeError):
+            player.magic = 'dffd'
+        with self.assertRaises(TypeError):
+            player.health = 'dffd'
+        self.assertEqual(player.magic, 99)
+        self.assertEqual(player.health, 100)
+
+    def test_so_small(self):
+        player = Character(health=110, magic=99)
         player.health = 0.000000001
         player.magic += 15
-        self.assertEqual(player.health, 0.000000001)
-        self.assertEqual(player.magic, 35)
+        self.assertEqual(player.health, 0.00)
+        self.assertEqual(player.magic, 100)
 
     def test_class_test_name(self):
         player = Character()
