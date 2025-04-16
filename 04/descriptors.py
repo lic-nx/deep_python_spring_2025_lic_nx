@@ -6,7 +6,10 @@ import sys
 # Дескрипторы - Шкала здоровья, характеристики(например сила, ловкость), имя
 
 
-class BaseDescriptor:
+class BaseDescriptor:  # pylint: disable=too-few-public-methods
+    def __init__(self):
+        self.value = None
+
     def __set_name__(self, owner, name):
         self.value = f"_hidden_int_{owner}_{name}"
 
@@ -16,7 +19,7 @@ class BaseDescriptor:
         return obj.__dict__[self.value]
 
 
-class BarDescriptor(BaseDescriptor):
+class BarDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
     #  измеряем в процентах
     # на персонажа могут накинуть урон
     # который больше его жизней
@@ -35,7 +38,7 @@ class BarDescriptor(BaseDescriptor):
         obj.__dict__[self.value] = val
 
 
-class CharactiristicDescriptor(BaseDescriptor):
+class CharDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
     # отражать что за характеристика будет ссылка на дескриптор
     # считаем, что есть целочисленная шкала навыков умения
     # предолов верхних нет.
@@ -50,7 +53,7 @@ class CharactiristicDescriptor(BaseDescriptor):
         obj.__dict__[self.value] = val
 
 
-class NameDescriptor(BaseDescriptor):
+class NameDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
     def __set__(self, obj, name):
         # в имени не должно быть цифр или спц. символов кроме точки и тире
         # mr.Martin тоже считаем за имя
@@ -63,15 +66,19 @@ class NameDescriptor(BaseDescriptor):
         obj.__dict__[self.value] = name.title()
 
 
-class Character:
+class Character:  # pylint: disable=too-few-public-methods
     health = BarDescriptor()
     magic = BarDescriptor()
     name = NameDescriptor()
-    power = CharactiristicDescriptor()
-    dexterity = CharactiristicDescriptor()
+    power = CharDescriptor()
+    dexterity = CharDescriptor()
 
-    def __init__(self, name="John Doe", health=100,
-                 magic=100, power=0, dexterity=0):
+    def __init__(self,  # pylint: disable=too-many-arguments
+                 name="John Doe",
+                 health=100,
+                 magic=100,
+                 power=0,
+                 dexterity=0):
         self.name = name
         self.health = health
         self.magic = magic

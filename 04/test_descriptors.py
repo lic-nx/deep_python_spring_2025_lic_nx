@@ -20,7 +20,7 @@ class TestMetaclass(unittest.TestCase):
         self.assertEqual(player.health, 0)
         self.assertEqual(player.magic, 99)
         with self.assertRaises(TypeError):
-            Character('Steeve', "0.2", 0, 0)
+            Character('Steeve', "0.2")
         player.health -= 1000
         self.assertEqual(player.health, 0)
         self.assertEqual(player.magic, 99)
