@@ -11,7 +11,7 @@ def retry_deco(restarts: int = 1, exceptions: list = None):
             if not (isinstance(exc, type) and issubclass(exc, BaseException)):
                 raise TypeError(f"Некорректный тип исключения: {exc}")
     else:
-        raise TypeError("Параметр 'exceptions' может быть классом исключения или их исключением")
+        raise TypeError("Параметр 'exceptions'- класс исключения или их кортеж")
 
     if restarts < 1:
         raise ValueError(
