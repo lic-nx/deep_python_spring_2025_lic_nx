@@ -99,6 +99,10 @@ class TestProcessJson(unittest.TestCase):
         required_keys = ["ID", "ID", "id"]
         callback = Mock()
         process_json(json_str, required_keys, tokens, callback)
+        expected_calls = [
+            unittest.mock.call('ID', 'WORD1'),
+            unittest.mock.call('ID', 'WORD1')
+        ]
         callback.assert_not_called()
         self.assertEqual(callback.call_count, 0,
                          "Обнаружены дополнительные вызовы callback!")
