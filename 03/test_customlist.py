@@ -24,6 +24,7 @@ class TestCustomList(unittest.TestCase):
         cl.append(4)
         cl.append(5)
         self.assertEqual(cl, [4, 5])
+        self.assertIsInstance(cl, CustomList)
 
     def test_equao(self):
         cl = CustomList([1, 2, 3, 4])
@@ -31,6 +32,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl == other_cl, True)
         cl.append(5)
         self.assertEqual(cl != other_cl, True)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_greate_then(self):
         cl = CustomList([1, 2, 3, 4])
@@ -38,6 +41,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl > other_cl, False)
         cl.append(5)
         self.assertEqual(cl > other_cl, True)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_less_then(self):
         cl = CustomList([1, 2, 3, 4])
@@ -45,6 +50,8 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(cl < other_cl, True)
         cl.append(5)
         self.assertEqual(cl < other_cl, False)
+        self.assertIsInstance(cl, CustomList)
+        self.assertIsInstance(other_cl, CustomList)
 
     def test_greate_egual_then(self):
         cl = CustomList([1, 2, 3, 4])
