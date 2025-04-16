@@ -140,7 +140,7 @@ class TestCustomList(unittest.TestCase):
 
     def test_cl_summ(self):
         cl = CustomList([1, 2, 4, 5])
-        other_cl = CustomList[1, 1]
+        other_cl = CustomList([1, 1])
         res = other_cl + cl
         self.assertEqual(res, [2, 3, 4, 5])
         self.assertEqual(other_cl, [1, 1])
