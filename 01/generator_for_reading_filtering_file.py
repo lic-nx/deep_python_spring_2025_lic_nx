@@ -2,7 +2,7 @@ import re
 
 
 def find_any_match(s, elements):
-    if not len(elements):
+    if not elements:
         return False
     # Создаем регулярное выражение для поиска целых слов
     pattern = (
@@ -32,5 +32,5 @@ def filtered_file_reader(filename, find_line, stop_line):
         yield from process_lines(filename, stop_words, find_words)
     else:
         raise ValueError(
-            "Аргумент должен быть либо" "именем файла, либо файловым объектом"
+            "Аргумент должен быть либо именем файла, либо файловым объектом"
         )
