@@ -7,6 +7,13 @@ from customlist import CustomList
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
+def is_equal(left, right):
+    if len(left) != len(right):
+        return False
+    for i, b in zip(left, right):
+        if i != b:
+            return False
+    return True
 
 class TestCustomList(unittest.TestCase):
     @classmethod
@@ -20,7 +27,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(issubclass(CustomList, list), True)
     
     def test_from_exsample(self):
-        self.assertEqual(CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]), CustomList([6, 3, 10, 7]))
+        self.assertTrue(is_equal(CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]), CustomList([6, 3, 10, 7])))
         self.assertEqual(CustomList([10]) + [2, 5], CustomList([12, 5]))
         self.assertEqual([2, 5] + CustomList([10]), CustomList([12, 5]))
         self.assertEqual(CustomList([2, 5]) + 10, CustomList([12, 15]))
