@@ -135,16 +135,18 @@ class TestMetaclass(unittest.TestCase):
         player.power = 1
         self.assertEqual(player.power, 1)
 
-
     def test_characteristic_descriptor(self):
-        character1 = Character(name="Hero-first", health=80, magic=90, power=10, dexterity=5)
-        character2 = Character(name="Hero-second", health=70, magic=80, power=20, dexterity=15)
+        character1 = Character(name="Hero-first",
+                               health=80, magic=90, power=10, dexterity=5)
+        character2 = Character(name="Hero-second",
+                               health=70, magic=80, power=20, dexterity=15)
         character1.power = 30
         self.assertEqual(character1.power, 30)
         self.assertEqual(character2.power, 20)
         with self.assertRaises(ValueError) as cm:
             character1.power = -5
-        self.assertEqual(str(cm.exception), "Значение навыка не может быть отрицательным")
+        self.assertEqual(str(cm.exception),
+                         "Значение навыка не может быть отрицательным")
         self.assertEqual(character1.power, 30)
         with self.assertRaises(ValueError) as cm:
             character1.power = sys.maxsize + 1
@@ -152,5 +154,6 @@ class TestMetaclass(unittest.TestCase):
         self.assertEqual(character1.power, 30)
         with self.assertRaises(TypeError) as cm:
             character1.power = "invalid"
-        self.assertEqual(str(cm.exception), "принимаются только целочисленные значения")
+        self.assertEqual(str(cm.exception),
+                         "принимаются только целочисленные значения")
         self.assertEqual(character1.power, 30)
