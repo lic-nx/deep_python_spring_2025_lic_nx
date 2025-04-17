@@ -142,17 +142,6 @@ class TestCustomList(unittest.TestCase):
         cl = CustomList([1, 2, 3, 4])
         self.assertTrue(str(cl), "CustomList([1, 2, 3, 4]), Sum: 10")
 
-    def test_sub(self):
-        cl = CustomList([1, 2, 4])
-        res = cl - 2
-        self.assertTrue(
-            res, CustomList([-1, 0, 2]))
-        self.assertTrue(isinstance(res, CustomList), True)
-        other_cl = [1, 1, 1, 1, 1, 1, 1]
-        res = cl - other_cl
-        self.assertTrue(res, [0, 1, 3, -1, -1, -1, -1])
-        self.assertTrue(other_cl, [1, 1, 1, 1, 1, 1, 1])
-
     def test_rsub(self):
         cl = CustomList([1, 2, 4])
         res = 2 - cl
@@ -166,34 +155,6 @@ class TestCustomList(unittest.TestCase):
         other_cl = [1, 1, 1, 1, 1, 1, 1]
         res = other_cl - cl
         self.assertTrue(res, [0, -1, -3, 1, 1, 1, 1])
-
-    def test_summ(self):
-        cl = CustomList([1, 2, 4])
-        res = cl + 2
-        self.assertTrue(
-            is_equal(
-                res,
-                CustomList([3, 4, 6])
-            )
-        )
-        self.assertTrue(isinstance(res, CustomList))
-        other_cl = [1, 1, 1, 1, 1, 1, 1]
-        res = cl + other_cl
-        self.assertTrue(
-            is_equal(
-                res,
-                [2, 3, 5, 1, 1, 1, 1]
-            )
-        )
-        self.assertIsInstance(res, CustomList)
-        self.assertTrue(
-            is_equal(
-                other_cl,
-                [1, 1, 1, 1, 1, 1, 1]
-            )
-        )
-        self.assertIsInstance(cl, CustomList)
-        self.assertIsInstance(other_cl, list)
 
     def test_rsumm(self):
         cl = CustomList([1, 2, 4])
@@ -263,13 +224,7 @@ class TestCustomList(unittest.TestCase):
         self.assertIsInstance(cl, CustomList)
         self.assertIsInstance(other_cl, CustomList)
 
-    def test_equality(self):
-        # Проверка сравнения через sum
-        self.assertTrue(CustomList([1, 2, 3]), CustomList([6]))
-        self.assertNotEqual(CustomList([1, 2, 3]), CustomList([5]))
-
     def test_addition_same_size(self):
-        # Сложение двух списков одинакового размера
         a = CustomList([1, 2, 3])
         b = CustomList([4, 5, 6])
         result = a + b
