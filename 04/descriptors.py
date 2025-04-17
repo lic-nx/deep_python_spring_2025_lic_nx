@@ -1,12 +1,12 @@
 import re
 import sys
-
+from abc import ABC
 # тесты нужно для класса в который помещен дескриптор(
 # выбрана тема - компьютерные игры
 # Дескрипторы - Шкала здоровья, характеристики(например сила, ловкость), имя
 
 
-class BaseDescriptor:  # pylint: disable=too-few-public-methods
+class BaseDescriptor(ABC):  # pylint: disable=too-few-public-methods
     def __init__(self):
         self.value = None
 
@@ -17,6 +17,9 @@ class BaseDescriptor:  # pylint: disable=too-few-public-methods
         if obj is None:
             return None
         return obj.__dict__[self.value]
+
+    def __set__(self, obj, val):
+        ...
 
 
 class BarDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
