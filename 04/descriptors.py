@@ -1,6 +1,6 @@
 import re
 import sys
-from abc import ABC
+from abc import ABC, abstractmethod
 # тесты нужно для класса в который помещен дескриптор(
 # выбрана тема - компьютерные игры
 # Дескрипторы - Шкала здоровья, характеристики(например сила, ловкость), имя
@@ -19,7 +19,12 @@ class BaseDescriptor(ABC):  # pylint: disable=too-few-public-methods
         return obj.__dict__[self.value]
 
     def __set__(self, obj, val):
-        ...
+        new_val = self._validate(val)
+        obj.__dict__[self.value] = new_val
+
+    @abstractmethod
+    def _validate(self, val):
+        pass
 
 
 class BarDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
@@ -29,7 +34,7 @@ class BarDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
     # на персонажа могут накинуть дебав,
     # который будет высасывать ману даже при минусе значения
 
-    def __set__(self, obj, val):
+    def _validate(self, val):
         if not isinstance(val, (int, float)):
             raise TypeError(
                 "Значение должно быть либо целочисленное,"
@@ -37,15 +42,15 @@ class BarDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
             )
         # не может быть больше 100% и меньше 0%
         val = max(0, min(val, 100))
-        val = round(val, 2)
-        obj.__dict__[self.value] = val
+
+        return round(val, 2)
 
 
 class CharDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
     # отражать что за характеристика будет ссылка на дескриптор
     # считаем, что есть целочисленная шкала навыков умения
     # предолов верхних нет.
-    def __set__(self, obj, val):
+    def _validate(self, val):
         # предполагаем, что на шкале навыков игрок может как откатывать умения
         if not isinstance(val, int):
             raise TypeError("принимаются только целочисленные значения")
@@ -53,11 +58,11 @@ class CharDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
             raise ValueError("слишком большое значение")
         if val < 0:
             raise ValueError("Значение навыка не может быть отрицательным")
-        obj.__dict__[self.value] = val
+        return val
 
 
 class NameDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
-    def __set__(self, obj, name):
+    def _validate(self, name):
         # в имени не должно быть цифр или спц. символов кроме точки и тире
         # mr.Martin тоже считаем за имя
         if not isinstance(name, str):
@@ -66,7 +71,7 @@ class NameDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
         pattern = r"^[a-zа-я '.-]*[a-zа-я][a-zа-я '.-]*$"
         if not re.match(pattern, name):
             raise ValueError("Имя не подходит")
-        obj.__dict__[self.value] = name.title()
+        return name.title()
 
 
 class Character:  # pylint: disable=too-few-public-methods
