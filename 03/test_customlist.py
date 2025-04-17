@@ -132,7 +132,7 @@ class TestCustomList(unittest.TestCase):
         self.assertTrue(cl >= other_cl)
 
 
-class TestCustomList_2(unittest.TestCase):
+class TestCustomList2(unittest.TestCase):
     def test_less_egual_then(self):
         cl = CustomList([1, 2, 3, 4])
         other_cl = CustomList([1, 2, 3, 4])
