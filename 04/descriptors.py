@@ -62,12 +62,12 @@ class CharDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
 
 
 class NameDescriptor(BaseDescriptor):  # pylint: disable=too-few-public-methods
-    def _validate(self, name):
+    def _validate(self, value):
         # в имени не должно быть цифр или спц. символов кроме точки и тире
         # mr.Martin тоже считаем за имя
-        if not isinstance(name, str):
+        if not isinstance(value, str):
             raise TypeError("принимаются только строки")
-        name = name.lower()
+        name = value.lower()
         pattern = r"^[a-zа-я '.-]*[a-zа-я][a-zа-я '.-]*$"
         if not re.match(pattern, name):
             raise ValueError("Имя не подходит")
