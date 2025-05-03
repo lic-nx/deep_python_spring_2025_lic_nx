@@ -8,6 +8,7 @@ from urllib.request import urlopen
 from urllib.error import URLError, HTTPError
 from collections import Counter
 import re
+from contextlib import closing
 
 
 mutex = threading.Lock()
@@ -18,7 +19,8 @@ def fetch_url(args, url):  # pylint: disable=R1732
     """обращение по url"""
     popular_words = args.k
     try:
-        resp = urlopen(url, timeout=2.5)
+        with closing(urlopen(url, timeout=2.5)) as resp:
+            words = resp.read().decode()
     except socket.timeout:
         return {"error": "Время ожидания истекло"}
     except (URLError, HTTPError) as e:
