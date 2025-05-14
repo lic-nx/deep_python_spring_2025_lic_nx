@@ -3,7 +3,7 @@ import asyncio
 import aiohttp
 import time
 
-
+# pylint: disable=W0718
 async def fetch_url(session, url, timeout=10):
     try:
         async with session.get(url.strip(), timeout=timeout) as resp:
@@ -13,14 +13,13 @@ async def fetch_url(session, url, timeout=10):
     except Exception as e:
         return {"error": f"Неизвестная ошибка: {e}"}
 
-
+# pylint: disable=W0718
 async def fetch_worker(session, que, name):
     print(f"fetch_worker {name} started")
     while True:
         url = await que.get()
         if url is None:
             break
-
         try:
             result = await fetch_url(session, url)
             print(f"Fetched {url}: {len(result)} bytes")
@@ -36,7 +35,7 @@ async def run(args):
     t1 = time.time()
 
     que = asyncio.Queue()
-    with open(args.urls_file) as f:
+    with open(args.urls_file, encoding='utf-8') as f:
         for url in f:
             await que.put(url.strip())
 
@@ -50,11 +49,9 @@ async def run(args):
 
         await que.join()
 
-        # Отмена задач
         for worker in workers:
             worker.cancel()
 
-        # Ожидание завершения всех задач
         await asyncio.gather(*workers, return_exceptions=True)
 
     t2 = time.time()
@@ -67,5 +64,5 @@ if __name__ == '__main__':
                         type=int,
                         help='Number of concurrent requests')
     parser.add_argument('urls_file', type=str, help='File containing URLs')
-    args = parser.parse_args()
-    asyncio.run(run(args))
+    params = parser.parse_args()
+    asyncio.run(run(params))
