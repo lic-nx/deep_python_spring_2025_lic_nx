@@ -61,7 +61,7 @@ class TestFetcher(unittest.TestCase):
             await que.put("http://example.com")
             await que.put(None)  # Сигнал для завершения работы воркера
 
-            await fetch_worker(session, que, "test_worker", 10)
+            await fetch_worker(session, que, "test_worker")
 
             await session.close()
 
