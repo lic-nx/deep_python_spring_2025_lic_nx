@@ -1,3 +1,4 @@
+# pylint: disable=R0903
 class Node:
     def __init__(self, key, val, next=None, before=None):
         self.key = key
@@ -38,14 +39,13 @@ class LRUCache:
         print("+------+-------+--------------+--------------+\n")
 
     def get(self, key):
-        if key in self.__lru_cash.keys():
-            # print("print key", key, self.__lru_cash.keys())
+        if key in self.__lru_cash:
             self.__replase_to_front(key)
             return self.__head.val
         return None
 
     def set(self, key, value):
-        if key in self.__lru_cash.keys():
+        if key in self.__lru_cash:
             self.__replase_to_front(key)
             self.__lru_cash[key].val = value
         else:
@@ -79,7 +79,7 @@ class LRUCache:
         node = self.__lru_cash[key]
         if node.before is None:
             return
-        elif node.next is None:
+        if node.next is None:
             self.__end.next = self.__head
             self.__end.before.next = None
             self.__head.before = self.__end
