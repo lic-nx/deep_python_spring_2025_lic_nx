@@ -29,7 +29,9 @@ class LRUCache:
         while current:
             key = str(current.key).ljust(4)
             val = str(current.val).ljust(5)
-            following_key = str(current.following.key if current.following else None).ljust(12)
+            following_key = str(current.following.key
+                                if current.following
+                                else None).ljust(12)
             prev_key = str(current.before.key
                            if current.before
                            else None).ljust(12)
