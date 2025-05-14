@@ -32,8 +32,8 @@ def fetch_url(args, url):  # pylint: disable=R1732
         return {"error": "Время ожидания истекло"}
     except (URLError, HTTPError) as e:
         return {"error": f"Ошибка сети: {e}"}
-    except Exception as e:
-        return {"error": f"Неожиданная ошибка: {e}"}
+
+
 
 # pylint: disable=W0603
 def worker_fetch(que, args):
