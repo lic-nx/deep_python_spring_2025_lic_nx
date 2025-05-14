@@ -85,7 +85,7 @@ class TestLRUCache(unittest.TestCase):
         cache.get("k2")
         self.assertEqual(cache.get("k2"), "val2")
         self.assertEqual(cache._LRUCache__head.key, "k2")
-        self.assertEqual(cache._LRUCache__head.next.key, "k3")
+        self.assertEqual(cache._LRUCache__head.following.key, "k3")
         self.assertEqual(cache._LRUCache__end.key, "k1")
 
     def test_eviction_order_after_multiple_accesses(self):
