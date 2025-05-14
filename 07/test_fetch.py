@@ -5,6 +5,8 @@ import aiohttp
 import time
 import socket
 from fetcher import *
+
+
 class TestFetcher(unittest.TestCase):
 
     @patch('aiohttp.ClientSession.get')
@@ -42,7 +44,8 @@ class TestFetcher(unittest.TestCase):
 
             session = aiohttp.ClientSession()
             result = await fetch_url(session, "http://example.com")
-            self.assertEqual(result, {"error": "Неизвестная ошибка: Some error"})
+            self.assertEqual(result,
+                             {"error": "Неизвестная ошибка: Some error"})
 
             await session.close()
 
@@ -65,6 +68,3 @@ class TestFetcher(unittest.TestCase):
             await session.close()
 
         asyncio.run(run_test())
-
-if __name__ == '__main__':
-    unittest.main()

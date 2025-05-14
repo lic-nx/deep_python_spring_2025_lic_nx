@@ -29,7 +29,6 @@ class TestLRUCache(unittest.TestCase):
         cache.set("k2", "val2")
         cache.get("k1")
         cache.set("k3", "val3")
-        
         self.assertEqual(cache.get("k1"), "val1")
         self.assertIsNone(cache.get("k2"))
         self.assertEqual(cache.get("k3"), "val3")
@@ -103,10 +102,10 @@ class TestLRUCache(unittest.TestCase):
     def test_full_replacement(self):
         """Проверяем полную замену кэша"""
         cache = LRUCache(2)
-        cache.set("k1", "val1") 
-        cache.set("k2", "val2") 
-        cache.set("k3", "val3")  
-        cache.set("k4", "val4")  
+        cache.set("k1", "val1")
+        cache.set("k2", "val2")
+        cache.set("k3", "val3")
+        cache.set("k4", "val4")
 
         self.assertEqual(cache.get("k4"), "val4")
         self.assertEqual(cache.get("k3"), "val3")
@@ -128,11 +127,8 @@ class TestLRUCache(unittest.TestCase):
         cache.set("k1", "val1")
         cache.set("k2", "val2")
         cache.set("k1", "updated_val1")
-        cache.set("k3", "val3") 
+        cache.set("k3", "val3")
 
         self.assertEqual(cache.get("k1"), "updated_val1")
         self.assertIsNone(cache.get("k2"))
         self.assertEqual(cache.get("k3"), "val3")
-
-if __name__ == "__main__":
-    unittest.main()

@@ -3,6 +3,7 @@ import asyncio
 import aiohttp
 import time
 
+
 async def fetch_url(session, url, timeout=10):
     try:
         async with session.get(url.strip(), timeout=timeout) as resp:
@@ -29,6 +30,7 @@ async def fetch_worker(session, que, name):
             que.task_done()
 
     print(f"fetch_worker {name} finished")
+
 
 async def run(args):
     t1 = time.time()
@@ -60,7 +62,10 @@ async def run(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Fetch URLs concurrently.')
-    parser.add_argument('-c', '--concurrency', type=int, help='Number of concurrent requests')
+    parser.add_argument('-c',
+                        '--concurrency',
+                        type=int,
+                        help='Number of concurrent requests')
     parser.add_argument('urls_file', type=str, help='File containing URLs')
     args = parser.parse_args()
     asyncio.run(run(args))
