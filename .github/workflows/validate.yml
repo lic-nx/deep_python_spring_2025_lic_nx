@@ -33,19 +33,19 @@ jobs:
       - name: Run tests with unittest
         if: ${{ always() }}
         run: |
-          for dir in 01 02 03; do
+          for dir in 01 02 03 04 05 06 07; do
             (cd $dir && python3 -m unittest *.py)
           done
 
 
       - name: Run tests with coverage
         run: |
-          for dir in 01 02 03; do
+          for dir in 01 02 03 04 05 06 07; do
             (cd $dir && coverage run -m unittest)
           done
 
       - name: Generate coverage report
         run: |
-          for dir in 01 02 03; do
+          for dir in 01 02 03 04 05 06 07; do
             (cd $dir && coverage report -m *.py)
           done
