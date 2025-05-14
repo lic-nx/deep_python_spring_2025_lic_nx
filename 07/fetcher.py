@@ -1,7 +1,8 @@
+import time
 import argparse
 import asyncio
 import aiohttp
-import time
+
 
 # pylint: disable=W0718
 async def fetch_url(session, url, timeout=10):
@@ -12,6 +13,7 @@ async def fetch_url(session, url, timeout=10):
         return {"error": "Время ожидания истекло"}
     except Exception as e:
         return {"error": f"Неизвестная ошибка: {e}"}
+
 
 # pylint: disable=W0718
 async def fetch_worker(session, que, name):

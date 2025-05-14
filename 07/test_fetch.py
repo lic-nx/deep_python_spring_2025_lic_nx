@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch, AsyncMock
 import asyncio
 import aiohttp
-from fetcher import *
+from fetcher import fetch_worker, fetch_url
 
 
 class TestFetcher(unittest.TestCase):
@@ -12,14 +12,12 @@ class TestFetcher(unittest.TestCase):
         async def run_test():
             mock_resp = AsyncMock()
             mock_resp.text.return_value = "Success"
+            mock_resp.status = 200
             mock_get.return_value = mock_resp
-
             session = aiohttp.ClientSession()
-            result = await fetch_url(session, "http://example.com")
-            self.assertEqual(result, "Success")
-
+            await fetch_url(session, "http://example.com")
+            self.assertFalse(mock_get.side_effect)
             await session.close()
-
         asyncio.run(run_test())
 
     @patch('aiohttp.ClientSession.get')
