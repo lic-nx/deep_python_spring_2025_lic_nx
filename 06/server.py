@@ -34,7 +34,6 @@ def fetch_url(args, url):  # pylint: disable=R1732
         return {"error": f"Ошибка сети: {e}"}
 
 
-
 # pylint: disable=W0603
 def worker_fetch(que, args):
     """используем потоки для выполнения задач"""
