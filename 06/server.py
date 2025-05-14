@@ -21,19 +21,19 @@ def fetch_url(args, url):  # pylint: disable=R1732
     try:
         with closing(urlopen(url, timeout=2.5)) as resp:
             words = resp.read().decode()
+        words = resp.read().decode()
+        cleaner_html = re.compile("<.*?>")
+        clean_text = re.sub(cleaner_html, " ", words)
+        print("clean_text", clean_text)
+        clean_text = clean_text.split(" ")
+        most_common_words = dict(Counter(clean_text).most_common(popular_words))
+        return most_common_words
     except socket.timeout:
         return {"error": "Время ожидания истекло"}
     except (URLError, HTTPError) as e:
-        return {"error": f"Неизвестная ошибка: {e}"}
-
-    words = resp.read().decode()
-    cleaner_html = re.compile("<.*?>")
-    clean_text = re.sub(cleaner_html, " ", words)
-    print("clean_text", clean_text)
-    clean_text = clean_text.split(" ")
-    most_common_words = dict(Counter(clean_text).most_common(popular_words))
-    return most_common_words
-
+        return {"error": f"Ошибка сети: {e}"}
+    except Exception as e:
+        return {"error": f"Неожиданная ошибка: {e}"}
 
 # pylint: disable=W0603
 def worker_fetch(que, args):
@@ -61,8 +61,6 @@ def server_start(args):
     listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listener.bind(("localhost", 12345))
     listener.listen(5)
-    print(f"Server listening on localhost:12345 with {args.w} workers")
-
     threads = [
         threading.Thread(
             target=worker_fetch, args=(que, args), name=f"worker_fetch_{i}"

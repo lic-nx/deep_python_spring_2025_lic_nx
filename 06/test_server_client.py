@@ -15,13 +15,11 @@ class TestServer(unittest.TestCase):
     @patch("server.urlopen")
     def test_fetch_url_success(self, mock_urlopen):
         """Проверяем, что fetch_url корректно обрабатывает ответ"""
-        # Мокаем содержимое страницы
         mock_resp = MagicMock()
         mock_resp.read.return_value.decode.return_value = "hello world hello"
         mock_urlopen.return_value = mock_resp
-
         args = MagicMock(k=2)
-        result = server.fetch_url(args, "http://example.com")
+        result = server.fetch_url(args, "http://test.com")
 
         self.assertEqual(result, {"hello": 2, "world": 1})
 
@@ -31,17 +29,17 @@ class TestServer(unittest.TestCase):
         with patch(
             "server.urlopen", side_effect=socket.timeout("Connection timed out")
         ):
-            result = server.fetch_url(args, "http://example.com")
+            result = server.fetch_url(args, "http://test.com")
             self.assertEqual(result, {"error": "Время ожидания истекло"})
 
     def test_fetch_url_http_error(self):
         """Проверяем обработку ошибки сети"""
         args = MagicMock(k=5)
         with patch("server.urlopen", side_effect=URLError("Not found")):
-            result = server.fetch_url(args, "http://example.com")
+            result = server.fetch_url(args, "http://test.com")
             self.assertEqual(
                 result,
-                {"error": "Неизвестная ошибка: <urlopen error Not found>"}
+                {'error': 'Ошибка сети: <urlopen error Not found>'}
             )
 
     @patch("server.fetch_url", return_value={"hello": 2})
@@ -54,13 +52,13 @@ class TestServer(unittest.TestCase):
 
         # Добавляем одну задачу
         mock_connection = MagicMock()
-        que.put((mock_connection, "http://example.com"))
+        que.put((mock_connection, "http://test.com"))
         que.put((None, None))  # сигнал завершения
 
         server.worker_fetch(que, args)
 
         # Проверяем, что fetch_url был вызван с правильным URL
-        mock_fetch_url.assert_called_once_with(args, "http://example.com")
+        mock_fetch_url.assert_called_once_with(args, "http://test.com")
 
         # Проверяем отправку результата клиенту
         mock_connection.send.assert_called_once_with(
@@ -81,12 +79,12 @@ class TestServer(unittest.TestCase):
         mock_connection = MagicMock()
 
         # Помещаем корректные данные в очередь
-        que.put((mock_connection, "http://example.com"))  # ✅
+        que.put((mock_connection, "http://test.com"))  # ✅
         que.put((None, None))  # ✅ сигнал завершения
 
         server.worker_fetch(que, args)
 
-        mock_fetch_url.assert_called_once_with(args, "http://example.com")
+        mock_fetch_url.assert_called_once_with(args, "http://test.com")
 
         mock_connection.send.assert_called_once_with(
             json.dumps({"hello": 2}, ensure_ascii=False).encode()
@@ -99,7 +97,7 @@ class TestClient(unittest.TestCase):
     def test_worker_fetch_processes_url(self):
         """Проверяем, что worker_fetch отправляет URL и получает ответ"""
         que = queue.Queue()
-        que.put("http://example.com")
+        que.put("http://test.com")
         que.put(None)
 
         with patch("client.socket") as mock_socket:
@@ -131,7 +129,7 @@ class TestClient(unittest.TestCase):
     @patch(
         "builtins.open",
         new_callable=mock_open,
-        read_data="http://example.com\nhttp://test.com\n",
+        read_data="http://test.com\nhttp://test.com\n",
     )
     def test_start_client_loads_urls_from_file(self, mock_file):
         """Проверяем, что start_client загружает URL'ы из файла"""
@@ -145,7 +143,7 @@ class TestClient(unittest.TestCase):
 
     @patch("builtins.open",
            new_callable=mock_open,
-           read_data="http://example.com\n")
+           read_data="http://test.com\n")
     # pylint: disable=W0613
     def test_start_client_creates_correct_number_of_threads(self, mock_file):
         """Проверяем, что создаётся правильное число потоков"""
@@ -157,7 +155,7 @@ class TestClient(unittest.TestCase):
 
     @patch("builtins.open",
            new_callable=mock_open,
-           read_data="http://example.com\n")
+           read_data="http://test.com\n")
     # pylint: disable=W0613
     def test_start_client_puts_none_for_each_thread(self, mock_file):
         """Проверяем, что после URL'ов добавляется None для каждого потока"""
@@ -175,7 +173,7 @@ class TestClient(unittest.TestCase):
     @patch(
         "builtins.open",
         new_callable=mock_open,
-        read_data="http://example.com\nhttp://test.com\n",
+        read_data="http://test.com\nhttp://test.com\n",
     )
     # pylint: disable=W0613
     def test_start_client_starts_and_joins_all_threads(self, mock_file):

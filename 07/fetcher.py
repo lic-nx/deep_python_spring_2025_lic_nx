@@ -29,18 +29,15 @@ async def fetch_worker(session, que, name):
             print(f"Error fetching {url}: {err}")
         finally:
             que.task_done()
-
     print(f"fetch_worker {name} finished")
 
 
 async def run(args):
     t1 = time.time()
-
     que = asyncio.Queue()
     with open(args.urls_file, encoding='utf-8') as f:
         for url in f:
             await que.put(url.strip())
-
     async with aiohttp.ClientSession() as session:
         workers = [
             asyncio.create_task(
@@ -48,14 +45,10 @@ async def run(args):
             )
             for i in range(args.concurrency)
         ]
-
         await que.join()
-
         for worker in workers:
             worker.cancel()
-
         await asyncio.gather(*workers, return_exceptions=True)
-
     t2 = time.time()
     print(f"Batch time: {t2 - t1:.2f} seconds")
 
