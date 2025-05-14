@@ -1,9 +1,9 @@
 # pylint: disable=R0903
 class Node:
-    def __init__(self, key, val, next=None, before=None):
+    def __init__(self, key, val, following=None, before=None):
         self.key = key
         self.val = val
-        self.next = next
+        self.following = following
         self.before = before
 
 
@@ -22,19 +22,19 @@ class LRUCache:
     def show(self):
         print("\nLRU Cache State:")
         print("+------+-------+--------------+--------------+")
-        print("| KEY  | VAL   | NEXT         | PREV         |")
+        print("| KEY  | VAL   | following         | PREV         |")
         print("+------+-------+--------------+--------------+")
 
         current = self.__head
         while current:
             key = str(current.key).ljust(4)
             val = str(current.val).ljust(5)
-            next_key = str(current.next.key if current.next else None).ljust(12)
+            following_key = str(current.following.key if current.following else None).ljust(12)
             prev_key = str(current.before.key
                            if current.before else None).ljust(12)
 
-            print(f"| {key} | {val} | {next_key} | {prev_key} |")
-            current = current.next
+            print(f"| {key} | {val} | {following_key} | {prev_key} |")
+            current = current.following
 
         print("+------+-------+--------------+--------------+\n")
 
@@ -71,25 +71,25 @@ class LRUCache:
         else:
             self.__lru_cash.pop(self.__end.key)
             self.__end = self.__end.before
-            del self.__end.next
-            self.__end.next = None
+            del self.__end.following
+            self.__end.following = None
             self.__size -= 1
 
     def __replase_to_front(self, key):
         node = self.__lru_cash[key]
         if node.before is None:
             return
-        if node.next is None:
-            self.__end.next = self.__head
-            self.__end.before.next = None
+        if node.following is None:
+            self.__end.following = self.__head
+            self.__end.before.following = None
             self.__head.before = self.__end
             self.__end = self.__end.before
             self.__head = self.__head.before
         else:
-            node.before.next = node.next
-            node.next.before = node.before
+            node.before.following = node.following
+            node.following.before = node.before
             node.before = None
-            node.next = self.__head
+            node.following = self.__head
             self.__head.before = node
             self.__head = node
 
