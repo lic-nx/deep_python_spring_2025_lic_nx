@@ -31,7 +31,8 @@ class LRUCache:
             val = str(current.val).ljust(5)
             following_key = str(current.following.key if current.following else None).ljust(12)
             prev_key = str(current.before.key
-                           if current.before else None).ljust(12)
+                           if current.before
+                           else None).ljust(12)
 
             print(f"| {key} | {val} | {following_key} | {prev_key} |")
             current = current.following

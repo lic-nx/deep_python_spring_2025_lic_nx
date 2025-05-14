@@ -2,8 +2,6 @@ import unittest
 from unittest.mock import patch, AsyncMock
 import asyncio
 import aiohttp
-import time
-import socket
 from fetcher import *
 
 
