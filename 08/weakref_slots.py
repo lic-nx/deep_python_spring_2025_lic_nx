@@ -50,5 +50,38 @@ weakref_class = [WeakrefClass(i, i**2) for i in range(num_instances)]
 end_time = time.time()
 example_create_time["weakref_class_time"] = end_time - start_time
 
-print(example_create_time["usual_class_time"], example_create_time["slots_class_time"], example_create_time["weakref_class_time"])
+--------------------
+start_time = time.time()
+for value in usual_class:
+    value.attr1 = 7
+    value.attr2 = value.attr1 + value.attr2
+end_time = time.time()
+example_create_time["usual_class_read_time"] = end_time - start_time
+
+start_time = time.time()
+for value in slots_class:
+    value.attr1 = 7
+    value.attr2 = value.attr1 + value.attr2
+end_time = time.time()
+example_create_time["slots_class_read_time"] = end_time - start_time
+
+start_time = time.time()
+for value in weakref_class:
+    value.attr1 = 7
+    value.attr2 = value.attr1 + value.attr2
+end_time = time.time()
+example_create_time["weakref_class_read_time"] = end_time - start_time
+
+--------------------
+
+table_data = [
+    ["Класс", "Время создания (сек.)", "Время измененияатрибутов"],
+    ["UsualClass", f"{example_create_time['usual_class_time']:.6f}", f"{example_create_time['usual_class_read_time']:.6f}"],
+    ["SlotsClass", f"{example_create_time['slots_class_time']:.6f}", f"{example_create_time['slots_class_read_time']:.6f}"],
+    ["WeakrefClass", f"{example_create_time['weakref_class_time']:.6f}", f"{example_create_time['weakref_class_read_time']:.6f}"]
+]
+
+# Печать таблицы
+print(tabulate(table_data, headers="firstrow", tablefmt="grid"))
+
 gc.enable()
