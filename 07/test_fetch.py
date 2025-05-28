@@ -50,7 +50,7 @@ class TestFetcher(unittest.TestCase):
             session = aiohttp.ClientSession()
             que = asyncio.Queue()
             await que.put("http://example.com")
-            await que.put(None)  # Сигнал для завершения работы воркера
+            await que.put(None)
             await fetch_worker(session, que, "test_worker")
             await session.close()
         asyncio.run(run_test())
