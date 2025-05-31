@@ -1,3 +1,10 @@
+import logging
+import argparse
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='cache.log', level=logging.INFO)
+
 # pylint: disable=R0903
 class Node:
     def __init__(self, key, val, following=None, before=None):
@@ -98,6 +105,13 @@ class LRUCache:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--stdout', action='store_true',
+                        help="логгирование в sdtout")
+    parser.add_argument('-f', '--filter', action='store_true',
+                        help="кастомный фильтр")
+    args = parser.parse_args()
+
     cache = LRUCache(2)
 
     cache.set("k1", "val1")
