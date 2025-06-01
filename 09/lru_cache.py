@@ -1,5 +1,5 @@
 """упражнение на логирование"""
-
+# pylint: disable=R0801
 import logging
 import argparse
 
